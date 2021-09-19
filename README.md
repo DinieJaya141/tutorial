@@ -11,7 +11,7 @@ Changelog (19 September 2021)
 - users are redirected back to index if they are logged in and try to access certain pages by manually typing in the URL (like login and signup)
 - htmlspecialchars are used to display username to prevent shenanigans
 
-Phalcon 3.4
-PHP 7.3.30
-Phalcon Devtools 3.4.11
+Phalcon 3.4  
+PHP 7.3.30  
+Phalcon Devtools 3.4.11  
 Server is run using 'phalcon serve' in cmd and XAMPP is used as the web server host, database is phpMyAdmin.
