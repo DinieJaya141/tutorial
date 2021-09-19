@@ -1,0 +1,13 @@
+<div class="page-header">
+    <h1>Welcome to Tutorial!</h1>
+</div>
+
+<?php echo $this->getContent() ?>
+
+<p><?php 
+	if ($this->session->has('auth')) {
+		echo "You are currently logged in as <code>" . htmlspecialchars($this->session->get('username')) . "</code>. Very good.";
+	} else {
+		echo "You are not logged in. Please do something about that. You can login top-right.";
+	}
+?></p>

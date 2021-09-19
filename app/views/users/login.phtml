@@ -1,0 +1,44 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+
+<div class="page-header">
+    <h1>
+        Login
+    </h1>
+</div>
+
+<?php echo $this->getContent() ?>
+
+<?php
+    echo $this->tag->form(
+        [
+            "session/start",
+            "autocomplete" => "off",
+            "class" => "form-horizontal"
+        ]
+    );
+?>
+
+<br>
+
+<form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="userEmail">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Password" name="userPassword">
+  </div>
+  <button type="submit" class="btn btn-dark">Submit</button>
+</form>
+
+<?php echo $this->tag->endForm(); ?>
+
+<br><br>
+<p>
+  No account? <?php echo $this->tag->linkTo(["users/signup", "Sign up here."]) ?>
+</p>
