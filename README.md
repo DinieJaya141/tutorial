@@ -10,7 +10,7 @@ Changelog (19 September 2021)
 - measures to ensure no duplicate users are being made
 - users are redirected back to index if they are logged in and try to access certain pages by manually typing in the URL (like login and signup)
 - htmlspecialchars are used to display username to prevent shenanigans
-- passwords are only kept in SHA1
+- passwords are only kept in SHA-1
 
 Phalcon 3.4  
 PHP 7.3.30  
