@@ -6,8 +6,7 @@ Changelog (19 September 2021)
 - user login
 - user session
 - user logout
-- signup form validation
-- measures to ensure no duplicate users are being made
+- signup form validation, measures to ensure no duplicate users are being made
 - users are redirected back to index if they are logged in and try to access certain pages by manually typing in the URL (implemented for login and signup)
 - htmlspecialchars are used to display username to prevent shenanigans
 - passwords are only stored in SHA-1
