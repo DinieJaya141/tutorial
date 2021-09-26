@@ -1,6 +1,5 @@
 # tutorial
 
-Specs:  
 Phalcon 3.4  
 PHP 7.3.30  
 Phalcon Devtools 3.4.11  
