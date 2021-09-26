@@ -15,6 +15,7 @@ Changelog (26 September 2021)
 - user can now change password
 - user can now delete their account
 - added error controller for non-existent pages (404)
+- added validation to ensure no usernames are duplicate
 - miscellaneous changes (changed how users are redirected when accessing non-authorized pages, set fields to 'required' thus removing the need of an additional 'if' case, etc.)
 
 - - - - -
