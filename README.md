@@ -3,7 +3,7 @@
 Phalcon 3.4  
 PHP 7.3.30  
 Phalcon Devtools 3.4.11  
-Development server is run using 'phalcon serve' in cmd and XAMPP is used as the web server host, database is phpMyAdmin.
+Development server is run using 'phalcon serve' in cmd and XAMPP is used as the web server host, database is phpMyAdmin.  
 The database for now only has the table 'Users' with the fields 'id', 'email', 'password' and 'username'.
 
 - - - - -
