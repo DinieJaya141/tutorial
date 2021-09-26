@@ -13,6 +13,7 @@ class SessionController extends ControllerBase
             ]
         );
 
+        $this->session->set('userid', $user->id,);
         $this->session->set('username', $user->username,);
     }
 
@@ -57,6 +58,7 @@ class SessionController extends ControllerBase
 
     public function endAction()
     {
+        //$this->flashSession->success("Exit");
         $this->session->destroy();
         return $this->response->redirect("index");
     }

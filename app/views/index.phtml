@@ -11,7 +11,7 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand"><?php echo $this->tag->linkTo(["index", "HOME", "style" => "text-decoration: none;"]) ?></a>
+            <a class="navbar-brand"><?php echo $this->tag->linkTo(["index", "HOME", "style" => "text-decoration: none; color: #0000EE;"]) ?></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,13 +55,28 @@
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                 </ul>
-                <button type="button" class="btn btn-dark"><?php 
-                    if ($this->session->has('auth')) {
-                        echo $this->tag->linkTo(["session/end", "Logout", "style" => "color: #fb3f00; text-decoration: none;"]);
+
+                <ul class="navbar-nav ml-auto">
+                    <?php 
+                    if ($this->session->has('auth')) {?>
+                        <li class="nav-item px-2 dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #0000EE;">
+                            User Panel
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="http://localhost:8000/users/account">Manage Account</a>
+                            <a class="dropdown-item" href="#">My Bookings</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="http://localhost:8000/session/end" style="color: #fb3f00 !important">Logout</a>
+                        </div>
+                        </li>
+                        <?php
                     } else {
+                        echo "<button type=\"button\" class=\"btn btn-dark\">";
                         echo $this->tag->linkTo(["users/login", "Login", "style" => "text-decoration: none;"]);
-                    }
-                ?></button>
+                        echo "</button>";
+                    }?>
+                </ul>
             </div>
         </nav>
         <div>
@@ -71,6 +86,7 @@
                 <?php echo $this->getContent(); ?>
             </div>
         </div>
+        <!-- comment -->
         <!-- jQuery first, then Popper.js, and then Bootstrap's JavaScript -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
