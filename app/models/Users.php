@@ -67,6 +67,12 @@ class Users extends \Phalcon\Mvc\Model
     {
         $this->setSchema("tutorial");
         $this->setSource("users");
+        $this->hasOne(
+            'id',
+            'Cart',
+            'user_id',
+            array('foreignKey' => TRUE, 'alias' => 'Cart')
+        );
     }
 
     /**

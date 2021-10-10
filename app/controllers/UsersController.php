@@ -15,7 +15,7 @@ class UsersController extends ControllerBase
     public function signupAction()
     {
         if ($this->session->has('auth')) {
-            return $this->response->redirect("index");
+            return $this->response->redirect("");
         }
     }
 
@@ -40,7 +40,7 @@ class UsersController extends ControllerBase
             [
                 "email = :email:",
                 'bind' => [
-                    'email'    => $user->email,
+                    'email' => $user->email,
                 ]
             ]
         );
@@ -49,7 +49,7 @@ class UsersController extends ControllerBase
             [
                 "username = :username:",
                 'bind' => [
-                    'username'    => $user->username,
+                    'username' => $user->username,
                 ]
             ]
         );
@@ -115,33 +115,34 @@ class UsersController extends ControllerBase
     public function loginAction()
     {
         if ($this->session->has('auth')) {
-            return $this->response->redirect("index");
+            return $this->response->redirect("");
         }
     }
 
     public function accountAction()
     {
         if (!$this->session->has('auth')) {
-            return $this->response->redirect("index");
+            return $this->response->redirect("");
         }
     }
 
     public function editusernameAction()
     {
         if (!$this->session->has('auth')) {
-            return $this->response->redirect("index");
+            return $this->response->redirect("");
         }
     }
 
     public function editusernamesubmitAction() 
     {
         if (!$this->request->isPost()) {
-           return $this->response->redirect("index");
+           return $this->response->redirect("");
         }
 
         $id = $this->session->get('userid');
         $user = Users::findFirstByid($id);
         $username = $this->request->getPost("userName");
+        
         $does_username_exist = Users::findFirst(
             [
                 "username = :username:",
@@ -191,14 +192,14 @@ class UsersController extends ControllerBase
     public function editpasswordAction()
     {
         if (!$this->session->has('auth')) {
-            return $this->response->redirect("index");
+            return $this->response->redirect("");
         }
     }
 
     public function editpasswordsubmitAction() 
     {
         if (!$this->request->isPost()) {
-           return $this->response->redirect("index");
+           return $this->response->redirect("");
         }
 
         $id = $this->session->get('userid');
@@ -225,7 +226,7 @@ class UsersController extends ControllerBase
     public function deleteAction()
     {
         if (!$this->session->has('auth')) {
-            return $this->response->redirect("index");
+            return $this->response->redirect("");
         }
     }
 
@@ -234,7 +235,7 @@ class UsersController extends ControllerBase
         $previous_url = $_SERVER['HTTP_REFERER'];
 
         if ($previous_url != 'http://localhost:8000/users/delete') {
-            return $this->response->redirect("index");
+            return $this->response->redirect("");
         }
 
         $id = $this->session->get('userid');
@@ -273,7 +274,7 @@ class UsersController extends ControllerBase
         $previous_url = $_SERVER['HTTP_REFERER'];
 
         if ($previous_url != 'http://localhost:8000/users/delete') {
-            return $this->response->redirect("index");
+            return $this->response->redirect("");
         }
     }
 

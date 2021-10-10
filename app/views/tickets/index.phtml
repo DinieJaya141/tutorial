@@ -1,0 +1,62 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+
+<div class="page-header">
+    <h1>
+        Purchase Tickets
+    </h1>
+</div>
+
+<?php echo $this->getContent() ?>
+
+<?php 
+    echo "This menu adds tickets to your cart only. You can adjust the quantity of each ticket from your  ";
+    echo $this->tag->linkTo(["cart", "cart"]);
+    echo ".";
+?>
+
+<br><br>
+
+<?php
+    $tickets = Tickets::find();
+    $user = Users::findFirstByid($this->session->get('userid'));
+
+    $cart_id = $user->Cart->id;
+    $item_ids = $user->Cart->getItemIds($user->Cart->contents);
+
+    if (!$tickets) {
+        echo "<div>";
+        echo "<p>Tickets are currently not available. Please try again another time.</p>";
+        echo "</div>";
+    } else {
+        $iteration = 1;
+        foreach ($tickets as $ticket) {
+            echo "<div class=\"card border-dark bg-light mb-3\">";
+            echo "<div class=\"card-header\">" . $ticket->name . "</div>";
+            echo "<div class=\"card-body\">";
+            echo "<h5 class=\"card-title\">$" . $ticket->price . " BND</h5>";
+            echo "<p class=\"card-text\">" . $ticket->details . "</p>";echo $this->tag->form(
+                [
+                    "tickets/addtocart",
+                    "autocomplete" => "off",
+                    "class" => "form-horizontal"
+                ]
+            );
+            echo "<input type=\"hidden\" id=\"hiddenInput1\" name=\"itemId\" value=\"" . $ticket->id . "\">";
+            echo "<input type=\"hidden\" id=\"hiddenInput2\" name=\"cartId\" value=\"" . $cart_id . "\">";
+            echo "<div class=\"clearfix\">";
+            if (gettype($item_ids) == "array" && in_array($ticket->id, $item_ids)) {
+                echo "<button type=\"submit\" class=\"btn btn-success\" disabled>Already in Cart</button>";
+            } else {
+                echo "<button type=\"submit\" class=\"btn btn-success\">Add to Cart</button>";
+            }
+            echo $this->tag->endForm();
+            echo "</div></div></div>";
+        }
+    }
+?>
+
+<br>
