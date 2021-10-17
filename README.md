@@ -4,7 +4,7 @@ Phalcon 3.4
 PHP 7.3.30  
 Phalcon Devtools 3.4.11  
 Development server is run using 'phalcon serve' in cmd and XAMPP is used as the web server host, database is phpMyAdmin.  
-The database as of now has 3 tables:  
+The database as of now has 5 tables:  
 'Users' with the fields 'id', 'email', 'password' and 'username'.  
 'Cart' with the fields 'id' and 'user_id'.  
 'Tickets' with the fields 'id', 'name', 'details', 'type', 'price' and 'quantity'. ('quantity' not in use so far - originally there with the idea of tickets having limited supply in mind.)  
