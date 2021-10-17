@@ -33,57 +33,56 @@ class CartController extends ControllerBase
         }
     }
 
+    public function addtocartAction()
+    {
+        if (!$this->request->isPost()) {
+            return $this->response->redirect();
+        }
+
+        $cart_contents = new CartContents();
+        $cart_contents->cart_id = $this->request->getPost("cartId");
+        $cart_contents->item_id = $this->request->getPost("itemId");
+        $cart_contents->item_type = $this->request->getPost("itemType");
+        $cart_contents->quantity = 1;
+
+        if (!$cart_contents->save()) {
+            foreach ($cart_contents->getMessages() as $message) {
+                $this->flash->error($message);
+            }
+            return $this->response->redirect("tickets");
+        }
+        return $this->response->redirect("tickets");
+    }
+
     public function updateAction()
     {
         if (!$this->request->isPost()) {
             return $this->response->redirect();
         }
 
-        $item_id = (int)$this->request->getPost("itemId");
-        $cart = Cart::findFirstByid($this->request->getPost("cartId"));
         $action = $this->request->getPost("action");
 
-        $original_contents = explode(",", $cart->contents);
+        $cart_contents = CartContents::findFirst(
+            [
+                "cart_id = :cart_id: AND item_id = :item_id: AND item_type = :item_type:",
+                'bind' => [
+                    'cart_id'      => $this->request->getPost("cartId"),
+                    'item_id'   => $this->request->getPost("itemId"),
+                    'item_type' => $this->request->getPost("itemType"),
+                ]
+            ]
+        );
 
-        $iteration = 0;
-        $found = FALSE;
-        $updated_contents = "";
-
-        foreach ($original_contents as $value) {
-            if (($iteration % 2) == 0) {
-                if ((int)$value == $item_id) {
-                    $found = TRUE;
-                    if ($action === "delete") {
-                        $iteration++;
-                        continue;
-                    }
-                }
-                $updated_contents = $updated_contents . $value . ",";
-            } else {
-                if ($found) {
-                    $found = FALSE;
-                    if ($action === "delete") {
-                        $iteration++;
-                        continue;
-                    }
-                    $updated_contents = $updated_contents . (int)$this->request->getPost("quantity") . ",";
-                } else {
-                    $updated_contents = $updated_contents . $value . ",";
-                }
-            }
-            $iteration++;
-        }
-
-        if (strlen($updated_contents) > 0) {
-            $updated_contents = substr($updated_contents, 0, -1);
+        if ($cart_contents && ($action == "update")) {
+            $cart_contents->setQuantity((int)$this->request->getPost("quantity"));
+            $cart_contents->save();
+            return $this->response->redirect("cart");
+        } else if ($cart_contents && ($action == "delete")) {
+            $cart_contents->delete();
+            return $this->response->redirect("cart");
         } else {
-            $updated_contents = " ";
+            return $this->response->redirect("cart");
         }
-
-        $cart->setContents($updated_contents);
-        $cart->save();
-
-        return $this->response->redirect("cart");
     }
 
 }

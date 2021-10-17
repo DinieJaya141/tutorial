@@ -1,14 +1,25 @@
 <?php
 
-class Tickets extends \Phalcon\Mvc\Model
+class Bookings extends \Phalcon\Mvc\Model
 {
 
-    public $id; //int
-    public $name; //str
-    public $details; //str
-    public $type; //str
-    public $price; //double
-    public $quantity; //int
+    /**
+     *
+     * @var integer
+     */
+    public $id;
+
+    /**
+     *
+     * @var integer
+     */
+    public $user_id;
+
+    /**
+     *
+     * @var string
+     */
+    public $date;
 
     /**
      * Initialize method for model.
@@ -16,13 +27,8 @@ class Tickets extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("tutorial");
-        $this->setSource("Tickets");
-        $this->hasMany(
-            'id',
-            'CartContents',
-            'item_id',
-            array('foreignKey' => TRUE, 'alias' => 'Contents')
-        );
+        $this->setSource("bookings");
+        $this->belongsTo('user_id', 'Users', 'id', ['alias' => 'Users']);
     }
 
     /**
@@ -32,14 +38,14 @@ class Tickets extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'Tickets';
+        return 'bookings';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Tickets[]|Tickets|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Bookings[]|Bookings|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -50,7 +56,7 @@ class Tickets extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Tickets|\Phalcon\Mvc\Model\ResultInterface
+     * @return Bookings|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

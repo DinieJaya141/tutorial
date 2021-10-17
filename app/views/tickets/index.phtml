@@ -24,10 +24,9 @@
     $tickets = Tickets::find();
     $user = Users::findFirstByid($this->session->get('userid'));
 
-    $cart_id = $user->Cart->id;
-    $item_ids = $user->Cart->getItemIds($user->Cart->contents);
+    $item_ids = $user->Cart->getItemIds($user->Cart->Contents);
 
-    if (!$tickets) {
+    if ($tickets->count() <= 0) {
         echo "<div>";
         echo "<p>Tickets are currently not available. Please try again another time.</p>";
         echo "</div>";
@@ -40,15 +39,16 @@
             echo "<h5 class=\"card-title\">$" . $ticket->price . " BND</h5>";
             echo "<p class=\"card-text\">" . $ticket->details . "</p>";echo $this->tag->form(
                 [
-                    "tickets/addtocart",
+                    "cart/addtocart",
                     "autocomplete" => "off",
                     "class" => "form-horizontal"
                 ]
             );
             echo "<input type=\"hidden\" id=\"hiddenInput1\" name=\"itemId\" value=\"" . $ticket->id . "\">";
-            echo "<input type=\"hidden\" id=\"hiddenInput2\" name=\"cartId\" value=\"" . $cart_id . "\">";
+            echo "<input type=\"hidden\" id=\"hiddenInput2\" name=\"cartId\" value=\"" . $user->Cart->id . "\">";
+            echo "<input type=\"hidden\" id=\"hiddenInput3\" name=\"itemType\" value=\"ticket\">";
             echo "<div class=\"clearfix\">";
-            if (gettype($item_ids) == "array" && in_array($ticket->id, $item_ids)) {
+            if (in_array($ticket->id, $item_ids)) {
                 echo "<button type=\"submit\" class=\"btn btn-success\" disabled>Already in Cart</button>";
             } else {
                 echo "<button type=\"submit\" class=\"btn btn-success\">Add to Cart</button>";

@@ -4,7 +4,6 @@ class Cart extends \Phalcon\Mvc\Model
 {
 
     public $id; //int
-    public $content; //varchar
     public $user_id; //int
     
     public function initialize()
@@ -12,6 +11,13 @@ class Cart extends \Phalcon\Mvc\Model
         $this->setSchema("tutorial");
         $this->setSource("cart");
         $this->belongsTo('user_id', 'Users', 'id', ['alias' => 'Users']);
+        $this->hasMany('cart_id', 'Cart', 'id', ['alias' => 'Cart']);
+        $this->hasMany(
+            'id',
+            'CartContents',
+            'cart_id',
+            array('foreignKey' => TRUE, 'alias' => 'Contents')
+        );
     }
 
     /**
@@ -77,24 +83,11 @@ class Cart extends \Phalcon\Mvc\Model
 
     public static function getItemIds($cart_contents)
     {
-        if (strlen($cart_contents) < 3) {
-            return 0;
+        $contents = [];
+        foreach ($cart_contents as $item) {
+            $contents[] = $item->item_id;
         }
-
-        $contents = explode(",", $cart_contents);
-
-        $iteration = 0;
-        $key;
-        $item_ids = [];
-
-        foreach ($contents as $item) {
-            if (($iteration % 2) == 0) {
-                array_push($item_ids, $item);
-            }
-            $iteration++;
-        }
-
-        return $item_ids;
+        return $contents;
     }
 
 }

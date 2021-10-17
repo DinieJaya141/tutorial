@@ -6,29 +6,10 @@ use Phalcon\Validation\Validator\Email as EmailValidator;
 class Users extends \Phalcon\Mvc\Model
 {
 
-    /**
-     *
-     * @var integer
-     */
-    public $id;
-
-    /**
-     *
-     * @var string
-     */
-    public $email;
-
-    /**
-     *
-     * @var string
-     */
-    public $password;
-
-    /**
-     *
-     * @var string
-     */
-    public $username;
+    public $id; //int
+    public $email; //str
+    public $password; //str
+    public $username; //str
 
     public function setUsername($username) {
         $this->username = $username;

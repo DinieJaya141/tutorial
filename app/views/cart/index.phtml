@@ -15,21 +15,27 @@
 <?php
     $user = Users::findFirstByid($this->session->get('userid'));
 
-    $inventory = $user->Cart->getInventory($user->Cart->contents);
+    $inventory = $user->Cart->Contents;
     $cart_id = $user->Cart->id;
 
-    if (gettype($inventory) !== "array") {
+    $iteration = 1;
+    $cost = 0;
+
+    echo "<br>";
+
+    if ($inventory->count() <= 0) {
         echo "<div>";
         echo "<p>There are currently no items in your shopping cart. You can purchase tickets ";
         echo $this->tag->linkTo(["tickets", "here"]);
         echo ".</p>";
         echo "</div>";
     } else {
-        echo "<br>";
-        $cost = 0.00;
-        $iteration = 1;
-        foreach ($inventory as $id => $quantity) {
-            $item = Tickets::findFirstByid($id);
+        foreach ($inventory as $content) {
+            if ($content->item_type == "ticket") {
+                $item = Tickets::findFirstByid($content->item_id);
+            } else {
+                // different item type goes here
+            }
 
             echo "<div class=\"card border-dark bg-light mb-3\">";
             echo "<div class=\"card-header\">ITEM " . $iteration . ": " . $item->name . "</div>";
@@ -44,12 +50,13 @@
                 ]
             );
             echo "<label for=\"exampleQuantity\">Quantity:</label>";
-            echo "<input type=\"number\" id=\"counter0\" name=\"quantity\" min=\"1\" max=\"10\" value=\"" . $quantity . "\" class=\"form-control w-25\" style=\"width: 80%;\"><br>";
+            echo "<input type=\"number\" id=\"counter0\" name=\"quantity\" min=\"1\" max=\"10\" value=\"" . $content->quantity . "\" class=\"form-control w-25\" style=\"width: 80%;\"><br>";
             echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"itemId\" value=\"" . $item->id . "\">";
             echo "<input type=\"hidden\" id=\"hiddenInput2\" name=\"cartId\" value=\"" . $cart_id . "\">";
             echo "<input type=\"hidden\" id=\"hiddenInput3\" name=\"action\" value=\"update\">";
+            echo "<input type=\"hidden\" id=\"hiddenInput4\" name=\"itemType\" value=\"" . $content->item_type . "\">";
             echo "<div class=\"alert alert-info\">";
-            echo "<h5 class=\"card-title\">Total Price: $" . number_format((float)($item->price * $quantity), 2, '.', '') . " BND </h5>";
+            echo "<h5 class=\"card-title\">Total Price: $" . number_format((float)($item->price * $content->quantity), 2, '.', '') . " BND </h5>";
             echo "</div>";
             echo "<div class=\"clearfix\">";
             echo "<button type=\"submit\" class=\"btn btn-success\">Update quantity</button>";
@@ -65,16 +72,29 @@
             echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"itemId\" value=\"" . $item->id . "\">";
             echo "<input type=\"hidden\" id=\"hiddenInput2\" name=\"cartId\" value=\"" . $cart_id . "\">";
             echo "<input type=\"hidden\" id=\"hiddenInput3\" name=\"action\" value=\"delete\">";
+            echo "<input type=\"hidden\" id=\"hiddenInput4\" name=\"itemType\" value=\"" . $content->item_type . "\">";
             echo "<br>";
             echo "<button type=\"submit\" class=\"btn btn-danger\">Remove from Cart</button>";
             echo $this->tag->endForm();
             echo "</div></div></div>";
-            $cost += $item->price * $quantity;
+            $cost += $item->price * $content->quantity;
             $iteration++;
         }
-
         echo "<a type=\"button\" href=\"http://localhost:8000/tickets\" class=\"btn btn-outline-secondary btn-block\">Continue Shopping</a>";
         echo "<br>";
+        //
+        echo $this->tag->form(
+            [
+                "bookings/create",
+                "autocomplete" => "off",
+                "class" => "form-horizontal"
+            ]
+        );
+        echo "<label for=\"book_date\">Book a date for ticket pick up:</label><br>";
+        echo "<input type=\"date\" id=\"book_date\" name=\"date\">";
+        echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"userId\" value=\"" . $user->id . "\">";
+        echo "<button type=\"submit\" class=\"btn btn-sm btn-dark\">Confirm</button>";
+        //
         echo "<div class=\"row\">";
         echo "<p class=\"ml-auto\">Total cost:</p>";
         echo "</div>";
