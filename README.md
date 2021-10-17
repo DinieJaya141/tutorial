@@ -15,7 +15,7 @@ The database as of now has 5 tables:
 
 Changelog (17 October 2021)
 - feature: changed how Cart and Tickets work, new table Cart_Contents added
-- feature: Bookings added (for user to book a ticket pick up date)
+- feature: Bookings added (for user to book a ticket pick up date), can be accessed via the user's Cart page
 - chore: dropped 'contents' field from Cart table
 - chore: adjusted certain code to accomodate the new changes
 - removed some redundant code and comments
