@@ -7,7 +7,7 @@ Development server is run using 'phalcon serve' in cmd and XAMPP is used as the 
 The database as of now has 3 tables:  
 'Users' with the fields 'id', 'email', 'password' and 'username'.  
 'Cart' with the fields 'id' and 'user_id'.  
-'Tickets' with the fields 'id', 'name', 'details', 'type', 'price' and 'quantity'. ('quantity' not in use so far - originally there with the idea of tickets having limited supply in mind.)
+'Tickets' with the fields 'id', 'name', 'details', 'type', 'price' and 'quantity'. ('quantity' not in use so far - originally there with the idea of tickets having limited supply in mind.)  
 'CartContents' with the fields 'id', 'cart_id', 'item_id', 'item_type' and 'quantity'.  
 'Bookings' with the fields 'id', 'user_id' and 'date'.  
 
