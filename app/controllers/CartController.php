@@ -41,9 +41,18 @@ class CartController extends ControllerBase
 
         $cart_contents = new CartContents();
         $cart_contents->cart_id = $this->request->getPost("cartId");
-        $cart_contents->item_id = $this->request->getPost("itemId");
-        $cart_contents->item_type = $this->request->getPost("itemType");
         $cart_contents->quantity = 1;
+
+        if ($this->request->getPost("itemType") == "ticket") {
+            $cart_contents->ticket_id = $this->request->getPost("itemId");
+            $cart_contents->item_type = $this->request->getPost("itemType");
+        } else if ($this->request->getPost("itemType") == "merchandise") {
+            $cart_contents->merchandise_id = $this->request->getPost("itemId");
+            $cart_contents->item_type = $this->request->getPost("itemType");
+        } else {
+            $this->flash->error("Something went wrong. Try again.");
+            return $this->response->redirect("tickets");
+        }
 
         if (!$cart_contents->save()) {
             foreach ($cart_contents->getMessages() as $message) {
@@ -51,7 +60,15 @@ class CartController extends ControllerBase
             }
             return $this->response->redirect("tickets");
         }
-        return $this->response->redirect("tickets");
+
+        if ($this->request->getPost("itemType") == "ticket") {
+            return $this->response->redirect("tickets");
+        } else if ($this->request->getPost("itemType") == "merchandise") {
+            return $this->response->redirect("merchandise");
+        } else {
+            $this->flash->error("Something went wrong. Returning to your Cart.");
+            return $this->response->redirect("cart");
+        }
     }
 
     public function updateAction()
@@ -64,9 +81,9 @@ class CartController extends ControllerBase
 
         $cart_contents = CartContents::findFirst(
             [
-                "cart_id = :cart_id: AND item_id = :item_id: AND item_type = :item_type:",
+                "cart_id = :cart_id: AND item_type = :item_type: AND (ticket_id = :item_id: OR merchandise_id = :item_id:)",
                 'bind' => [
-                    'cart_id'      => $this->request->getPost("cartId"),
+                    'cart_id'   => $this->request->getPost("cartId"),
                     'item_id'   => $this->request->getPost("itemId"),
                     'item_type' => $this->request->getPost("itemType"),
                 ]
@@ -83,6 +100,80 @@ class CartController extends ControllerBase
         } else {
             return $this->response->redirect("cart");
         }
+    }
+
+    public function bookdateAction() 
+    {
+        if (!$this->request->isPost()) {
+            if (!$this->session->has('auth')) {
+                return $this->response->redirect();
+            } else {
+                return $this->response->redirect("cart");
+            }
+        }
+
+        $this->session->set('book_date', $this->request->getPost("date"));
+        return $this->response->redirect("cart");
+    }
+
+    public function summaryAction()
+    {
+        if (!$this->session->has('auth')) {
+            return $this->response->redirect("");
+        }
+
+        $user = Users::findFirstByid($this->session->get('userid'));
+        $inventory = $user->Cart->Contents;
+
+        if ($inventory->count() <= 0) {
+            return $this->response->redirect("cart");
+        }
+    }
+
+    public function checkoutAction()
+    {
+        if (!$this->session->has('auth')) {
+            return $this->response->redirect("");
+        }
+
+        $user = Users::findFirstByid($this->session->get('userid'));
+        $inventory = $user->Cart->Contents;
+
+        if ($inventory->count() <= 0) {
+            return $this->response->redirect("cart");
+        }
+
+        $cart_contents = CartContents::find(
+            [
+                "cart_id = :cart_id:",
+                'bind' => [
+                    'cart_id'   => $user->Cart->id,
+                ]
+            ]
+        );
+
+        $details = "";
+        $iteration = 0;
+
+        foreach ($cart_contents as $item) {
+            $postId = 'name' . $iteration;
+            $costId = 'cost' . $iteration;
+            $details .= strtoupper($item->item_type) . "{";
+            $details .= $this->request->getPost($postId) . "{";
+            $details .= $item->quantity . "{";
+            $details .= $this->request->getPost($costId) . "|";
+            $iteration++;
+        }
+
+        $cart_contents->delete();
+
+        $order = new Orders();
+        $order->user_id = $user->id;
+        $order->purchase_date = date("Y-m-d");
+        $order->book_date = $this->session->get('book_date');
+        $order->total_cost = $this->request->getPost('totalcost');
+        $order->details = $details;
+        $order->save();
     }
 
 }

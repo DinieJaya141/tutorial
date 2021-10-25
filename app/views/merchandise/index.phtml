@@ -1,0 +1,65 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+
+<div class="page-header">
+    <h1>
+        Purchase Merchandise
+    </h1>
+</div>
+
+<?php echo $this->getContent() ?>
+
+<?php 
+    echo "This menu adds merchandise to your cart only. You can adjust the quantity of each item from your  ";
+    echo $this->tag->linkTo(["cart", "cart"]);
+    echo ".";
+?>
+
+<br><br>
+
+<?php
+    $merchandise = Merchandise::find();
+    $user = Users::findFirstByid($this->session->get('userid'));
+
+    $item_ids = $user->Cart->getItemIds($user->Cart->Contents, "merchandise");
+
+    if ($merchandise->count() <= 0) {
+        echo "<div>";
+        echo "<p>Merchandise are currently not available. Please try again another time.</p>";
+        echo "</div>";
+    } else {
+        $iteration = 1;
+        foreach ($merchandise as $merch) {
+            echo "<div class=\"card border-dark text-white bg-dark mb-3\">";
+            echo "<div class=\"card-header\">" . $merch->name . "</div>";
+            echo "<div class=\"card-body\">";
+            echo "<img class=\"mx-auto d-block\" src=\"" . $merch->image . "\" alt=\"merch.jpg\" width=\"20%\" height=\"20%\">";
+            echo "<h5 class=\"card-title\">$" . $merch->price . " BND</h5>";
+            echo "<p class=\"card-text\">" . $merch->details . "</p>";echo $this->tag->form(
+                [
+                    "cart/addtocart",
+                    "autocomplete" => "off",
+                    "class" => "form-horizontal"
+                ]
+            );
+            echo "<input type=\"hidden\" id=\"hiddenInput1\" name=\"itemId\" value=\"" . $merch->id . "\">";
+            echo "<input type=\"hidden\" id=\"hiddenInput2\" name=\"cartId\" value=\"" . $user->Cart->id . "\">";
+            echo "<input type=\"hidden\" id=\"hiddenInput3\" name=\"itemType\" value=\"merchandise\">";
+            echo "<div class=\"clearfix\">";
+            if (in_array($merch->id, $item_ids)) {
+                echo "<button type=\"submit\" class=\"btn btn-success\" disabled>Already in Cart</button>";
+            } else {
+                echo "<button type=\"submit\" class=\"btn btn-success\">Add to Cart</button>";
+            }
+            echo $this->tag->endForm();
+            echo "</div></div></div>";
+        }
+        echo "<a type=\"button\" href=\"http://localhost:8000/tickets\" class=\"btn btn-outline-dark btn-block\">Click here to go to the Tickets page</a>";
+        echo "<a type=\"button\" href=\"http://localhost:8000/cart\" class=\"btn btn-outline-dark btn-block\">View Cart</a>";
+    }
+?>
+
+<br>

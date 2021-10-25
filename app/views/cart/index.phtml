@@ -6,7 +6,7 @@
 
 <div class="page-header">
     <h1>
-        My cart
+        My Cart
     </h1>
 </div>
 
@@ -21,8 +21,6 @@
     $iteration = 1;
     $cost = 0;
 
-    echo "<br>";
-
     if ($inventory->count() <= 0) {
         echo "<div>";
         echo "<p>There are currently no items in your shopping cart. You can purchase tickets ";
@@ -30,14 +28,16 @@
         echo ".</p>";
         echo "</div>";
     } else {
+        echo "<p>Items listed in lighter color are Tickets. Items listed in darker color are Merchandise. You can modify quantity or drop items here.</p>";
         foreach ($inventory as $content) {
             if ($content->item_type == "ticket") {
-                $item = Tickets::findFirstByid($content->item_id);
-            } else {
-                // different item type goes here
+                $item = Tickets::findFirstByid($content->ticket_id);
+                echo "<div class=\"card border-dark bg-light mb-3\">";
+            } elseif ($content->item_type == "merchandise") {
+                $item = Merchandise::findFirstByid($content->merchandise_id);
+                echo "<div class=\"card border-dark text-white bg-dark mb-3\">";
             }
 
-            echo "<div class=\"card border-dark bg-light mb-3\">";
             echo "<div class=\"card-header\">ITEM " . $iteration . ": " . $item->name . "</div>";
             echo "<div class=\"card-body\">";
             echo "<h5 class=\"card-title\">Unit Price: $" . $item->price . " BND</h5>";
@@ -55,13 +55,14 @@
             echo "<input type=\"hidden\" id=\"hiddenInput2\" name=\"cartId\" value=\"" . $cart_id . "\">";
             echo "<input type=\"hidden\" id=\"hiddenInput3\" name=\"action\" value=\"update\">";
             echo "<input type=\"hidden\" id=\"hiddenInput4\" name=\"itemType\" value=\"" . $content->item_type . "\">";
+            echo "<div class=\"input-group\">";
             echo "<div class=\"alert alert-info\">";
-            echo "<h5 class=\"card-title\">Total Price: $" . number_format((float)($item->price * $content->quantity), 2, '.', '') . " BND </h5>";
-            echo "</div>";
-            echo "<div class=\"clearfix\">";
+            echo "<h5 class=\"card-title\">Item Total Price: $" . number_format((float)($item->price * $content->quantity), 2, '.', '') . " BND </h5>";
+            echo "</div></div>";
+            echo "<div class=\"clearfix btn-group\">";
             echo "<button type=\"submit\" class=\"btn btn-success\">Update quantity</button>";
             echo $this->tag->endForm();
-            echo " ";
+            echo "   ";
             echo $this->tag->form(
                 [
                     "cart/update",
@@ -73,36 +74,35 @@
             echo "<input type=\"hidden\" id=\"hiddenInput2\" name=\"cartId\" value=\"" . $cart_id . "\">";
             echo "<input type=\"hidden\" id=\"hiddenInput3\" name=\"action\" value=\"delete\">";
             echo "<input type=\"hidden\" id=\"hiddenInput4\" name=\"itemType\" value=\"" . $content->item_type . "\">";
-            echo "<br>";
-            echo "<button type=\"submit\" class=\"btn btn-danger\">Remove from Cart</button>";
+            echo "<button type=\"submit\" class=\"btn btn-danger ml-3\">Remove from Cart</button>";
             echo $this->tag->endForm();
             echo "</div></div></div>";
             $cost += $item->price * $content->quantity;
             $iteration++;
         }
-        echo "<a type=\"button\" href=\"http://localhost:8000/tickets\" class=\"btn btn-outline-secondary btn-block\">Continue Shopping</a>";
+        echo "<a type=\"button\" href=\"http://localhost:8000/tickets\" class=\"btn btn-outline-dark btn-block\">Continue Shopping</a>";
         echo "<br>";
         //
         echo $this->tag->form(
             [
-                "bookings/create",
+                "cart/bookdate",
                 "autocomplete" => "off",
                 "class" => "form-horizontal"
             ]
         );
         echo "<label for=\"book_date\">Book a date for ticket pick up:</label><br>";
-        echo "<input type=\"date\" id=\"book_date\" name=\"date\">";
+        echo "<input type=\"date\" id=\"book_date\" name=\"date\" value=\"" . $this->session->get('book_date') . "\">";
         echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"userId\" value=\"" . $user->id . "\">";
         echo "<button type=\"submit\" class=\"btn btn-sm btn-dark\">Confirm</button>";
         //
         echo "<div class=\"row\">";
-        echo "<p class=\"ml-auto\">Total cost:</p>";
+        echo "<h4 class=\"ml-auto\">Cart totals:</h4>";
         echo "</div>";
         echo "<div class=\"row\">";
         echo "<h3 class=\"ml-auto\">$" . number_format((float)$cost, 2, '.', '') . " BND</h3>";
         echo "</div>";
         echo "<div class=\"row\">";
-        echo "<button type=\"button\" class=\"btn btn-info btn-lg ml-auto\">Checkout</button>";
+        echo "<a type=\"button\" href=\"http://localhost:8000/cart/summary\" class=\"btn btn-info btn-lg ml-auto\">Next</a>";
         echo "</div>";
     }
 ?>

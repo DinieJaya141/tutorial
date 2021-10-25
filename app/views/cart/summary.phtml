@@ -1,0 +1,106 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+
+<div class="page-header">
+    <h1>
+        Order Summary
+    </h1>
+</div>
+
+<?php echo $this->getContent() ?>
+
+<?php
+    $user = Users::findFirstByid($this->session->get('userid'));
+
+    $inventory = $user->Cart->Contents;
+    $cost = 0;
+
+    $item_names = [];
+    $item_costs = [];
+
+    echo "<br>";
+
+    echo "<table class=\"table table-hover\">";
+    echo "<thead class=\"thead-dark\">";
+    echo "<tr>";
+    echo "<th scope=\"col\">Product</th>";
+    echo "<th scope=\"col\">Name</th>";
+    echo "<th scope=\"col\">Quantity</th>";
+    echo "<th scope=\"col\">Total</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
+    foreach ($inventory as $content) {
+        if ($content->item_type == "ticket") {
+            $item = Tickets::findFirstByid($content->ticket_id);
+        } elseif ($content->item_type == "merchandise") {
+            $item = Merchandise::findFirstByid($content->merchandise_id);
+        }
+        echo "<tr>";
+        echo "<td>" . strtoupper($content->item_type) . "</td>";
+        echo "<td>" . $item->name . "</td>";
+        echo "<td>" . $content->quantity . "</td>";
+        echo "<td>$" . number_format((float)($item->price * $content->quantity), 2, '.', '') . "</td>";
+        echo "</tr>";
+
+        $cost += $item->price * $content->quantity;
+        $item_names[] = $item->name;
+        $item_costs[] = $item->price * $content->quantity;
+    }
+
+    echo "<tr>";
+    echo "<th scope=\"row\">Total cost:</th>";
+    echo "<td></td>";
+    echo "<td></td>";
+    echo "<td><strong>$" . number_format((float)($cost), 2, '.', '') . "</strong></td>";
+    echo "</tr>";
+    echo "</tbody>";
+    echo "</table>";
+
+    echo "<br>";
+
+    echo "<div class=\"row\">";
+    echo "<h5 class=\"ml-auto\">Collection Date:</h5>";
+    echo "</div>";
+    echo "<div class=\"row\">";
+    if ($this->session->get('book_date')) {
+        echo "<h3 class=\"ml-auto\"> " . $this->session->get('book_date') . "</h3>";
+    } else {
+        echo "<h3 class=\"ml-auto\">(no date set)</h3>";
+    }
+    echo "</div>";
+
+    echo "<div class=\"row\">";
+    echo "<a type=\"button\" href=\"http://localhost:8000/cart\" class=\"btn btn-info btn-lg\">Back</a>";
+    echo "<button type=\"button\" class=\"btn btn-success btn-lg ml-auto\" style=\"background-color:#FFFFFF; border-color:#FFFFFF;\" disabled></button>";
+    echo $this->tag->form(
+            [
+                "cart/checkout",
+                "autocomplete" => "off",
+                "class" => "form-horizontal"
+            ]
+        );
+    echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"totalcost\" value=\"" . $cost . "\">";
+
+    $iteration = 0;
+    foreach ($item_names as $name) {
+        echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"name" . $iteration . "\" value=\"" . $name . "\">";
+        $iteration++;
+    }
+
+    $iteration = 0;
+    foreach ($item_costs as $cost) {
+        echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"cost" . $iteration . "\" value=\"" . $cost . "\">";
+        $iteration++;
+    }
+
+    echo "<button type=\"submit\" class=\"btn btn-success btn-lg ml-auto\">Proceed to checkout</button>";
+    echo $this->tag->endForm();
+    echo "</div>";
+?>
+
+<br>

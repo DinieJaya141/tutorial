@@ -13,7 +13,7 @@
 <?php echo $this->getContent() ?>
 
 <?php 
-    echo "This menu adds tickets to your cart only. You can adjust the quantity of each ticket from your  ";
+    echo "This menu adds tickets to your cart only. You can adjust the quantity of each item from your  ";
     echo $this->tag->linkTo(["cart", "cart"]);
     echo ".";
 ?>
@@ -24,7 +24,7 @@
     $tickets = Tickets::find();
     $user = Users::findFirstByid($this->session->get('userid'));
 
-    $item_ids = $user->Cart->getItemIds($user->Cart->Contents);
+    $item_ids = $user->Cart->getItemIds($user->Cart->Contents, "ticket");
 
     if ($tickets->count() <= 0) {
         echo "<div>";
@@ -56,6 +56,8 @@
             echo $this->tag->endForm();
             echo "</div></div></div>";
         }
+        echo "<a type=\"button\" href=\"http://localhost:8000/merchandise\" class=\"btn btn-outline-dark btn-block\">Click here to go to the Merchandise page</a>";
+        echo "<a type=\"button\" href=\"http://localhost:8000/cart\" class=\"btn btn-outline-dark btn-block\">View Cart</a>";
     }
 ?>
 

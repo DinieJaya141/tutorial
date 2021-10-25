@@ -278,4 +278,11 @@ class UsersController extends ControllerBase
         }
     }
 
+    public function orderhistoryAction()
+    {
+        if (!$this->session->has('auth')) {
+            return $this->response->redirect("");
+        }
+    }
+
 }

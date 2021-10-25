@@ -1,6 +1,7 @@
 <?php
 
 use Phalcon\Validation;
+use Phalcon\Mvc\Model\Relation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 
 class Users extends \Phalcon\Mvc\Model
@@ -52,7 +53,17 @@ class Users extends \Phalcon\Mvc\Model
             'id',
             'Cart',
             'user_id',
-            array('foreignKey' => TRUE, 'alias' => 'Cart')
+            array('foreignKey' => [
+                    'action' => Relation::ACTION_CASCADE,
+                ], 'alias' => 'Cart')
+        );
+        $this->hasMany(
+            'id',
+            'Orders',
+            'user_id',
+            array('foreignKey' => [
+                    'action' => Relation::ACTION_CASCADE,
+                ], 'alias' => 'Orders')
         );
     }
 

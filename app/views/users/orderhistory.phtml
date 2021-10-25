@@ -1,0 +1,67 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+
+<div class="page-header">
+    <h1>
+        Order History
+    </h1>
+</div>
+
+<?php echo $this->getContent() ?>
+
+<?php
+    echo "<p>Your orders are listed with most recent first.</p>";
+
+    $orders = Orders::listUserOrders($this->session->get('userid'));
+
+    echo "<table class=\"table table-hover\">";
+    echo "<thead class=\"thead-dark\">";
+    echo "<tr>";
+    //echo "<th scope=\"col\">#</th>";
+    echo "<th scope=\"col\">Order ID</th>";
+    echo "<th scope=\"col\">Purchase Date</th>";
+    echo "<th scope=\"col\">Book Date</th>";
+    echo "<th scope=\"col\">Total Cost</th>";
+    echo "<th scope=\"col\"></th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
+    $iteration = 1;
+    foreach ($orders as $order) {
+        echo "<tr>";
+        echo "<td>" . $order->id . "</td>";
+        echo "<td>" . $order->purchase_date . "</td>";
+        echo "<td>" . $order->book_date . "</td>";
+        echo "<td>$" . number_format((float)($order->total_cost), 2, '.', '') . "</td>";
+        echo "<td>";
+
+        echo $this->tag->form(
+            [
+                "orders",
+                "autocomplete" => "off",
+                "class" => "form-horizontal"
+            ]
+        );
+        echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"orderId\" value=\"" . $order->id . "\">";;
+        echo "<button type=\"submit\" class=\"btn btn-info\">View</button>";
+        echo $this->tag->endForm();
+
+        echo "</td>";
+        echo "</tr>";
+        $iteration++;
+    }
+    echo "</tbody>";
+    echo "</table>";
+
+    echo "<div class=\"text-center mx-auto\">";
+    echo "<a type=\"button\" href=\"http://localhost:8000/users/account\" class=\"btn btn-info btn-lg text-center mx-auto\">Back</a>";
+    echo "</div>";
+
+    echo "<br>";
+?>
+
+<br>

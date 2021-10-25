@@ -5,7 +5,8 @@ class CartContents extends \Phalcon\Mvc\Model
 
     public $id; //int
     public $cart_id; //int
-    public $item_id; //int
+    public $ticket_id; //int
+    public $merchandise_id; //int
     public $item_type; //str
     public $quantity; //int
 
@@ -17,7 +18,8 @@ class CartContents extends \Phalcon\Mvc\Model
         $this->setSchema("tutorial");
         $this->setSource("cart_contents");
         $this->belongsTo('cart_id', 'Cart', 'id', ['alias' => 'Cart']);
-        $this->belongsTo('item_id', 'Tickets', 'id', ['alias' => 'Tickets']);
+        $this->belongsTo('ticket_id', 'Tickets', 'id', ['alias' => 'Tickets']);
+        $this->belongsTo('merchandise_id', 'Merchandise', 'id', ['alias' => 'Merchandise']);
     }
 
     /**

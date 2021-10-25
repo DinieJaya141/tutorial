@@ -11,7 +11,6 @@ class Cart extends \Phalcon\Mvc\Model
         $this->setSchema("tutorial");
         $this->setSource("cart");
         $this->belongsTo('user_id', 'Users', 'id', ['alias' => 'Users']);
-        $this->hasMany('cart_id', 'Cart', 'id', ['alias' => 'Cart']);
         $this->hasMany(
             'id',
             'CartContents',
@@ -81,11 +80,17 @@ class Cart extends \Phalcon\Mvc\Model
         return $inventory;
     }
 
-    public static function getItemIds($cart_contents)
+    public static function getItemIds($cart_contents, $type)
     {
         $contents = [];
-        foreach ($cart_contents as $item) {
-            $contents[] = $item->item_id;
+        if ($type == "ticket") {
+            foreach ($cart_contents as $item) {
+                $contents[] = $item->ticket_id;
+            }
+        } else {
+            foreach ($cart_contents as $item) {
+                $contents[] = $item->merchandise_id;
+            }
         }
         return $contents;
     }
