@@ -91,7 +91,8 @@
             ]
         );
         echo "<label for=\"book_date\">Book a date for ticket pick up:</label><br>";
-        echo "<input type=\"date\" id=\"book_date\" name=\"date\" value=\"" . $this->session->get('book_date') . "\">";
+        $today = date("Y-m-d");
+        echo "<input type=\"date\" id=\"book_date\" min=\"" . $today . "\" name=\"date\" value=\"" . $this->session->get('book_date') . "\">";
         echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"userId\" value=\"" . $user->id . "\">";
         echo "<button type=\"submit\" class=\"btn btn-sm btn-dark\">Confirm</button>";
         //

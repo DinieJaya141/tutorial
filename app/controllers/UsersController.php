@@ -3,7 +3,12 @@
 
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 //use Users;
+
+require 'vendor/autoload.php';
 
 class UsersController extends ControllerBase
 {
@@ -100,6 +105,7 @@ class UsersController extends ControllerBase
         }
 
         $this->session->set('success', TRUE);
+        $this->session->set('email', $user->email);
         return $this->response->redirect("users/success");
     }
 
@@ -107,8 +113,34 @@ class UsersController extends ControllerBase
     {
         if (!$this->session->get('success') || $this->session->has('auth')) {
             $this->response->redirect("users/login");
-        } else {
-            $this->session->set('success', FALSE);
+        }
+
+        $this->session->set('success', FALSE);
+
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'diniejaya141@gmail.com';
+            $mail->Password   = '***';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = 465;
+
+            $mail->setFrom('diniejaya141@gmail.com', 'Tutorial Mailer');
+            $mail->addAddress($this->session->get('email'));
+            $this->session->remove('email');
+            $mail->addReplyTo('info@example.com', 'Information');
+
+            $mail->isHTML(true);
+            $mail->Subject = 'Tutorial Sign Up Success';
+            $mail->Body    = 'Thank you for registering your account. Visit localhost to login.';
+            $mail->AltBody = 'Thank you for registering your account. Visit localhost to login.';
+
+            $mail->send();
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
     }
 
@@ -219,6 +251,31 @@ class UsersController extends ControllerBase
 
         $user->setPassword(sha1($this->request->getPost('userPassword')));
         $user->save();
+
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'diniejaya141@gmail.com';
+            $mail->Password   = '***';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = 465;
+
+            $mail->setFrom('diniejaya141@gmail.com', 'Tutorial Mailer');
+            $mail->addAddress($this->session->get('email'));
+            $mail->addReplyTo('info@example.com', 'Information');
+
+            $mail->isHTML(true);
+            $mail->Subject = 'Tutorial Password Changed';
+            $mail->Body    = 'Your password was successfully changed.';
+            $mail->AltBody = 'Your password was successfully changed.';
+
+            $mail->send();
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
 
         return $this->response->redirect("users/account");
     }

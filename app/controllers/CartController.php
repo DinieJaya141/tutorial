@@ -3,7 +3,12 @@
 
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 //use Cart;
+
+require 'vendor/autoload.php';
 
 class CartController extends ControllerBase
 {
@@ -173,7 +178,41 @@ class CartController extends ControllerBase
         $order->book_date = $this->session->get('book_date');
         $order->total_cost = $this->request->getPost('totalcost');
         $order->details = $details;
-        $order->save();
+        if (!$order->save()) {
+            $this->session->set('book_date', '');
+            echo "Datase error. Could not add Order.";
+            return;
+        }
+
+        $this->session->set('book_date', '');
+
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'diniejaya141@gmail.com';
+            $mail->Password   = '***';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = 465;
+
+            $mail->setFrom('diniejaya141@gmail.com', 'Tutorial Mailer');
+            $mail->addAddress($this->session->get('email'));
+            $mail->addReplyTo('info@example.com', 'Information');
+
+            $mail->isHTML(true);
+            $mail->Subject = 'Purchase Confirmation';
+            $mail->Body    = 'Thank you for your purchase. Summarized details of your order are as follows.<br><br>
+                Order #: ' . $order->id . '<br>
+                Total payment: $' . $order->total_cost . ' BND<br><br>
+                For more details, login to your account and view your Order History under Manage Account.
+                ';
+            $mail->AltBody = 'Thank you for your purchase. For more details, login to your account and view your Order History under Manage Account.';
+                $mail->send();
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
     }
 
 }

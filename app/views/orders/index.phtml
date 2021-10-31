@@ -20,7 +20,11 @@
     echo "<div class=\"alert alert-dark\">";
     echo "<h5>Order ID: #" . $order->id . "</h5>";
     echo "<h5>Date of purchase: " . $order->purchase_date . "</h5>";
-    echo "<h5>Booked collection date: " . $order->book_date . "</h5>";
+    if ($order->book_date == "0000-00-00") {
+        echo "<h5>Booked collection date: (no date set)</h5>"; 
+    } else {
+        echo "<h5>Booked collection date: " . $order->book_date . "</h5>"; 
+    }
     echo "</div>";
 
     echo "<table class=\"table table-hover\">";

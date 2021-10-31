@@ -10,11 +10,14 @@ class SessionController extends ControllerBase
             [
                 'id'   => $user->id,
                 'name' => $user->username,
+                'mail' => $user->email,
             ]
         );
 
         $this->session->set('userid', $user->id,);
         $this->session->set('username', $user->username,);
+        $this->session->set('email', $user->email,);
+        $this->session->set('book_date', '',);
     }
 
     public function startAction()

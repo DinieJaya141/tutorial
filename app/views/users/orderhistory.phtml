@@ -35,7 +35,11 @@
         echo "<tr>";
         echo "<td>" . $order->id . "</td>";
         echo "<td>" . $order->purchase_date . "</td>";
-        echo "<td>" . $order->book_date . "</td>";
+        if ($order->book_date == "0000-00-00") {
+            echo "<td>(no date set)</td>";
+        } else {
+            echo "<td>" . $order->book_date . "</td>";
+        }
         echo "<td>$" . number_format((float)($order->total_cost), 2, '.', '') . "</td>";
         echo "<td>";
 
@@ -58,7 +62,7 @@
     echo "</table>";
 
     echo "<div class=\"text-center mx-auto\">";
-    echo "<a type=\"button\" href=\"http://localhost:8000/users/account\" class=\"btn btn-info btn-lg text-center mx-auto\">Back</a>";
+    echo "<a type=\"button\" href=\"http://localhost:8000/users/account\" class=\"btn btn-info btn-lg text-center mx-auto\">Back to Manage Account page</a>";
     echo "</div>";
 
     echo "<br>";
