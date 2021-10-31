@@ -15,6 +15,18 @@ The database as of now has 6 tables:
 
 - - - - -
 
+Changelog (31 October 2021)
+- Booking: User was able to pick a date prior to the current day, which should not be possible. This is now fixed.
+- Booking: Added a way to handle when user did not book a date at all. Updated relevant pages to display this information correctly.
+- Added PHPMailer to the project.
+- Cart: After a successful checkout process, an email will be sent.
+- User: After a successful sign up, an email will be sent.
+- User: After a successful password change, an email will be sent.
+- The above emails are kept simple for now, they are just notification emails.
+- Minor frontend adjustments.
+
+- - - - -
+
 Changelog (24 October 2021)
 - Merchandise: added as a feature, works very similar to Tickets
 - Merchandise: added a page for it, changed how Cart and CartContents works to accomodate changes
