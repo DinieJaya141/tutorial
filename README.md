@@ -5,13 +5,18 @@ PHP 7.3.30
 Phalcon Devtools 3.4.11  
 Development server is run using 'phalcon serve' in cmd and XAMPP is used as the web server host, database is phpMyAdmin.  
 
-The database as of now has 6 tables:  
-'Users' with the fields 'id', 'email', 'password' and 'username'.  
-'Cart' with the fields 'id' and 'user_id'.  
-'Tickets' with the fields 'id', 'name', 'details', 'type', 'price' and 'quantity'.  
-'CartContents' with the fields 'id', 'cart_id', 'item_id', 'item_type' and 'quantity'.  
-'Merchandise' with the fields 'id', 'name', 'details', 'price' and 'image'.  
-'Orders' with the fields 'id', 'user_id', 'purchase_date', 'book_date', 'total_cost' and 'details'.  
+- - - - -
+
+Changelog (14 November 2021)
+- Venue Booking: added as a feature, not to be confused with Booking (for ticket pick-up date).
+- Venue Booking: no login required to use, accessed via the navbar.
+- Promotion Codes: added as a feature, accessed in the Cart menu.
+- Promotion Codes: each code can only be used once per User (handled using PromoRecords), they are also added multiplicatively if more than 1 code is used per purchase.
+- Cart: updated to show which promotion codes are currently active, if any.
+- Order History: updated to include discounts, if any.
+- PHPMailer: all emails are now handled by a singular Model class called TestMailer; to send mails, simply call the corresponding method instead of duplicating the email template code every time.
+- PHPMailer: updated certain email templates, such as including discounts in emails that inform of successful purchases.
+- Miscellaneous updates to existing code to accomodate the new features, and minor frontend changes.
 
 - - - - -
 
