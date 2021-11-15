@@ -13,9 +13,17 @@
 <?php echo $this->getContent() ?>
 
 <?php
-    echo "<p>Your orders are listed with most recent first.</p>";
-
     $orders = Orders::listUserOrders($this->session->get('userid'));
+
+    if (count($orders) == 0) {
+        echo "<p>You have not made any purchases yet.</p>";
+        echo "<br>";
+        echo "<div class=\"text-center mx-auto\">";
+        echo "<a type=\"button\" href=\"http://localhost:8000/users/account\" class=\"btn btn-info btn-lg text-center mx-auto\">Back to Manage Account page</a>";
+        echo "</div>";
+        return;
+    }
+    echo "<p>Your orders are listed with most recent first.</p>";
 
     echo "<table class=\"table table-hover\">";
     echo "<thead class=\"thead-dark\">";
@@ -24,7 +32,7 @@
     echo "<th scope=\"col\">Order ID</th>";
     echo "<th scope=\"col\">Purchase Date</th>";
     echo "<th scope=\"col\">Book Date</th>";
-    echo "<th scope=\"col\">Total Cost</th>";
+    echo "<th scope=\"col\">Total Cost (BND)</th>";
     echo "<th scope=\"col\"></th>";
     echo "</tr>";
     echo "</thead>";
@@ -40,7 +48,11 @@
         } else {
             echo "<td>" . $order->book_date . "</td>";
         }
-        echo "<td>$" . number_format((float)($order->total_cost), 2, '.', '') . "</td>";
+        if ($order->discount) {
+            echo "<td>$" . number_format((float)($order->total_cost - $order->discount), 2, '.', '') . "</td>";
+        } else {
+            echo "<td>$" . number_format((float)($order->total_cost), 2, '.', '') . "</td>";
+        }
         echo "<td>";
 
         echo $this->tag->form(

@@ -1,0 +1,83 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+
+$venue = Venue::findFirstById($this->request->getPost('venueId'));
+
+if ($this->session->has('auth')) {
+    $user = Users::findFirstById($this->session->get('userid'));
+}
+
+?>
+
+<div class="page-header">
+    <h1>
+        Send Inquiry
+    </h1>
+</div>
+
+<?php echo $this->getContent() ?>
+
+<?php
+    echo "<img class=\"mx-auto d-block\" src=\"" . $this->request->getPost('venueImage') . "\" alt=\"user.png\" width=\"20%\" height=\"20%\">";
+
+    echo $this->tag->form(
+        [
+            "venuebooking/submit",
+            "autocomplete" => "off",
+            "class" => "form-horizontal"
+        ]
+    );
+
+    echo "<br>";
+    echo "<form>";
+    echo "<div class=\"form-group w-50 text-center mx-auto\">";
+
+    if (isset($user)) {
+        echo "<label for=\"name\">Name:</label>";
+        echo "<input type=\"text\" class=\"form-control\" id=\"name\" placeholder=\"Enter name\" name=\"nameInput\" value=\"" . htmlspecialchars($user->first_name) . " " . htmlspecialchars($user->last_name) . "\" required><br>";
+
+        echo "<label for=\"email\">Email Address:</label>";
+        echo "<input type=\"text\" class=\"form-control\" id=\"email\" placeholder=\"Enter email\" name=\"emailInput\" value=\"" . htmlspecialchars($user->email) . "\" required><br>";
+
+        echo "<label for=\"contact\">Contact Number:</label>";
+        echo "<input type=\"text\" class=\"form-control\" id=\"contact\" placeholder=\"Contact Number\" name=\"contactInput\" value=\"" . htmlspecialchars($user->contact) . "\" required><br>";
+    } else {
+        echo "<label for=\"name\">Name:</label>";
+        echo "<input type=\"text\" class=\"form-control\" id=\"name\" placeholder=\"Enter name\" name=\"nameInput\" required><br>";
+
+        echo "<label for=\"email\">Email Address:</label>";
+        echo "<input type=\"text\" class=\"form-control\" id=\"emailInput\" placeholder=\"Enter email\" name=\"email\" required><br>";
+
+        echo "<label for=\"contact\">Contact Number:</label>";
+        echo "<input type=\"text\" class=\"form-control\" id=\"contact\" placeholder=\"Contact Number\" name=\"contactInput\" required><br>";
+    }
+
+    echo "<label for=\"agenda\">Agenda Description:</label>";
+    echo "<textarea class=\"form-control\" id=\"agenda\" placeholder=\"Description\" name=\"agendaInput\" required></textarea><br>";
+
+    echo "<label for=\"venue\">Venue:</label>";
+    if (strlen($venue->choices) > 0) {
+        $choices = explode(',', $venue->choices);
+        echo "<select class=\"form-control\" name=\"venueInput\" id=\"venue\" required>";
+        foreach ($choices as $choice) {
+            echo "<option value=\"" . $choice . "\">" . $choice . "</option>";
+        }
+        echo "</select><br>";
+    } else {
+    echo "<input type=\"text\" class=\"form-control\" id=\"venue\" placeholder=\"Venue\" name=\"venueInput\" required><br>";
+    }
+    $today = date("Y-m-d");
+    echo "<label for=\"date\">Date:</label>";
+    echo "<input type=\"date\" class=\"form-control\" id=\"date\" min=\"" . $today . "\" name=\"dateInput\" required>";
+    echo "<input type=\"hidden\" class=\"form-control\" id=\"venueId\"  name=\"venueIdInput\" value=\"" . $venue->id . "\"><br>";
+
+    echo "<br>";
+    echo "<button type=\"submit\" class=\"btn btn-dark text-center mx-auto\">Submit Inquiry</button>";
+    echo "</div>";
+    echo "</form>";
+    echo $this->tag->endForm();
+?>
+
+<br><br>

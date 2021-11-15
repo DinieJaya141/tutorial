@@ -1,0 +1,45 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+
+<div class="page-header">
+    <h1>
+        Venue Booking
+    </h1>
+</div>
+
+<?php echo $this->getContent() ?>
+
+<br><br>
+
+<?php
+    $venue_list = Venue::find();
+
+    $iteration = 1;
+    foreach ($venue_list as $venue) {
+        echo "<div class=\"card border-dark bg-light mb-3\">";
+        echo "<div class=\"card-header\">" . $venue->title . "</div>";
+        echo "<div class=\"card-body\">";
+        echo "<img class=\"mx-auto d-block\" src=\"" . $venue->image . "\" alt=\"merch.jpg\" width=\"20%\" height=\"20%\">";
+        echo "<br>";
+        echo "<p class=\"card-text\">" . $venue->details . "</p>";
+        echo $this->tag->form(
+            [
+                "venuebooking/inquiry",
+                "autocomplete" => "off",
+                "class" => "form-horizontal"
+            ]
+        );
+        echo "<input type=\"hidden\" id=\"hiddenInput1\" name=\"venueId\" value=\"" . $venue->id . "\">";
+        echo "<input type=\"hidden\" id=\"hiddenInput2\" name=\"venueChoices\" value=\"" . $venue->choices . "\">";
+        echo "<input type=\"hidden\" id=\"hiddenInput3\" name=\"venueImage\" value=\"" . $venue->image . "\">";
+        echo "<div class=\"inline-block text-center\">";
+        echo "<button type=\"submit\" class=\"btn btn-success btn-lg\">Click to send inquiry</button>";
+        echo $this->tag->endForm();
+        echo "</div></div></div>";
+    }
+?>
+
+<br>

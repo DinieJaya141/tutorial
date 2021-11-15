@@ -3,12 +3,7 @@
 
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
 //use Users;
-
-require 'vendor/autoload.php';
 
 class UsersController extends ControllerBase
 {
@@ -38,6 +33,9 @@ class UsersController extends ControllerBase
         $user->email = $this->request->getPost("userEmail", "email");
         $user->password = $this->request->getPost("userPassword");
         $user->username = $this->request->getPost("userName");
+        $user->contact = $this->request->getPost("userContact");
+        $user->first_name = $this->request->getPost("userFirstName");
+        $user->last_name = $this->request->getPost("userLastName");
 
         $validity_check = TRUE;
 
@@ -82,6 +80,21 @@ class UsersController extends ControllerBase
             $validity_check = FALSE;
         }
 
+        if (strlen($user->contact) > 15) {
+            $this->flash->error("Contact number too long.");
+            $validity_check = FALSE;
+        }
+
+        if (strlen($user->first_name) > 50) {
+            $this->flash->error("First name too long, it cannot be longer than 50 characters.");
+            $validity_check = FALSE;
+        }
+
+        if (strlen($user->last_name) > 50) {
+            $this->flash->error("Last name too long, it cannot be longer than 50 characters.");
+            $validity_check = FALSE;
+        }
+
         if (!$validity_check) {
             $this->dispatcher->forward([
                 'controller' => "users",
@@ -117,31 +130,8 @@ class UsersController extends ControllerBase
 
         $this->session->set('success', FALSE);
 
-        $mail = new PHPMailer(true);
-
-        try {
-            $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
-            $mail->SMTPAuth   = true;
-            $mail->Username   = 'diniejaya141@gmail.com';
-            $mail->Password   = '***';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-            $mail->Port       = 465;
-
-            $mail->setFrom('diniejaya141@gmail.com', 'Tutorial Mailer');
-            $mail->addAddress($this->session->get('email'));
-            $this->session->remove('email');
-            $mail->addReplyTo('info@example.com', 'Information');
-
-            $mail->isHTML(true);
-            $mail->Subject = 'Tutorial Sign Up Success';
-            $mail->Body    = 'Thank you for registering your account. Visit localhost to login.';
-            $mail->AltBody = 'Thank you for registering your account. Visit localhost to login.';
-
-            $mail->send();
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        }
+        TestMailer::composeSignUpMail($this->session->get('email'));
+        $this->session->remove('email');
     }
 
     public function loginAction()
@@ -252,30 +242,7 @@ class UsersController extends ControllerBase
         $user->setPassword(sha1($this->request->getPost('userPassword')));
         $user->save();
 
-        $mail = new PHPMailer(true);
-
-        try {
-            $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
-            $mail->SMTPAuth   = true;
-            $mail->Username   = 'diniejaya141@gmail.com';
-            $mail->Password   = '***';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-            $mail->Port       = 465;
-
-            $mail->setFrom('diniejaya141@gmail.com', 'Tutorial Mailer');
-            $mail->addAddress($this->session->get('email'));
-            $mail->addReplyTo('info@example.com', 'Information');
-
-            $mail->isHTML(true);
-            $mail->Subject = 'Tutorial Password Changed';
-            $mail->Body    = 'Your password was successfully changed.';
-            $mail->AltBody = 'Your password was successfully changed.';
-
-            $mail->send();
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        }
+        TestMailer::composePasswordChangeMail($this->session->get('email'));
 
         return $this->response->redirect("users/account");
     }

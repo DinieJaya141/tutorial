@@ -52,12 +52,21 @@
         echo "<td>$" . number_format((float)($item[3]), 2, '.', '') . "</td>";
         echo "</tr>";
     }
+    if ($order->discount) {
+        echo "<tr>";
+        echo "<th scope=\"row\">Discount:</th>";
+        echo "<td></td>";
+        //echo "<td>" . (100 - ($this->session->get('discount_rate') * 100)) . "%</td>";
+        echo "<td></td>";
+        echo "<td><strong>-$" . number_format((float)$order->discount, 2, '.', '') . "</strong></td>";
+        echo "</tr>";
+    }
 
     echo "<tr>";
-    echo "<th scope=\"row\">Total cost:</th>";
+    echo "<th scope=\"row\">Total cost (BND):</th>";
     echo "<td></td>";
     echo "<td></td>";
-    echo "<td><strong>$" . number_format((float)($order->total_cost), 2, '.', '') . "</strong></td>";
+    echo "<td><strong>$" . number_format((float)($order->total_cost - $order->discount), 2, '.', '') . "</strong></td>";
     echo "</tr>";
     echo "</tbody>";
     echo "</table>";

@@ -80,6 +80,15 @@
             $cost += $item->price * $content->quantity;
             $iteration++;
         }
+        if (count($this->session->get('discount_codes')) > 0) {
+            echo "<div class=\"card border-dark bg-warning mb-3\">";
+            foreach ($this->session->get('discount_codes') as $code) {
+                $promo = Promo::findFirstByCode($code);
+                echo "<div class=\"card-header\">PROMO CODE \"" . $promo->code . "\" is currently being applied, discount rate: " . (100 - ($promo->rate * 100)) . "% (promo codes are multiplicative)</div>";
+            }
+            echo "</div>";
+            echo "<a type=\"button\" href=\"http://localhost:8000/promo/reset\" class=\"btn btn-outline-dark btn-block\">Remove Promotion Codes</a>";
+        }
         echo "<a type=\"button\" href=\"http://localhost:8000/tickets\" class=\"btn btn-outline-dark btn-block\">Continue Shopping</a>";
         echo "<br>";
         //
@@ -90,21 +99,44 @@
                 "class" => "form-horizontal"
             ]
         );
+        echo "<div class=\"row\">";
         echo "<label for=\"book_date\">Book a date for ticket pick up:</label><br>";
+        echo "</div>";
         $today = date("Y-m-d");
+        echo "<div class=\"row\">";
         echo "<input type=\"date\" id=\"book_date\" min=\"" . $today . "\" name=\"date\" value=\"" . $this->session->get('book_date') . "\">";
         echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"userId\" value=\"" . $user->id . "\">";
         echo "<button type=\"submit\" class=\"btn btn-sm btn-dark\">Confirm</button>";
+        echo "</div>";
+        echo "<br><br>";
+        echo $this->tag->endForm();
+        //
+        echo $this->tag->form(
+            [
+                "promo/apply",
+                "autocomplete" => "off",
+                "class" => "form-horizontal"
+            ]
+        );
+
+        echo "<div class=\"row\">";
+        echo "<input type=\"text\" class=\"ml-auto\" id=\"promo\" name=\"promoInput\" placeholder=\"Promotion Code\">";
+        echo "<button type=\"submit\" class=\"btn btn-sm btn-dark\">Confirm</button>";
+        echo "</div>";
+        echo "<br>";
+        echo $this->tag->endForm();
         //
         echo "<div class=\"row\">";
         echo "<h4 class=\"ml-auto\">Cart totals:</h4>";
         echo "</div>";
         echo "<div class=\"row\">";
-        echo "<h3 class=\"ml-auto\">$" . number_format((float)$cost, 2, '.', '') . " BND</h3>";
+        echo "<h3 class=\"ml-auto\">$" . number_format((float)$cost * $this->session->get('discount_rate'), 2, '.', '') . " BND</h3>";
         echo "</div>";
         echo "<div class=\"row\">";
         echo "<a type=\"button\" href=\"http://localhost:8000/cart/summary\" class=\"btn btn-info btn-lg ml-auto\">Next</a>";
         echo "</div>";
+
+
     }
 ?>
 

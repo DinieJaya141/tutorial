@@ -51,12 +51,22 @@
         $item_names[] = $item->name;
         $item_costs[] = $item->price * $content->quantity;
     }
+    if (count($this->session->get('discount_codes')) > 0) {
+        echo "<tr>";
+        echo "<th scope=\"row\">Discount:</th>";
+        echo "<td></td>";
+        //echo "<td>" . (100 - ($this->session->get('discount_rate') * 100)) . "%</td>";
+        echo "<td></td>";
+        $discount = number_format((float)$cost * $this->session->get('discount_rate'), 2, '.', '');
+        echo "<td><strong>-$" . number_format((float)($cost - $discount), 2, '.', '') . "</strong></td>";
+        echo "</tr>";
+    }
 
     echo "<tr>";
     echo "<th scope=\"row\">Total cost:</th>";
     echo "<td></td>";
     echo "<td></td>";
-    echo "<td><strong>$" . number_format((float)($cost), 2, '.', '') . "</strong></td>";
+    echo "<td><strong>$" .  number_format((float)$cost * $this->session->get('discount_rate'), 2, '.', '') . "</strong></td>";
     echo "</tr>";
     echo "</tbody>";
     echo "</table>";
@@ -93,9 +103,14 @@
     }
 
     $iteration = 0;
-    foreach ($item_costs as $cost) {
-        echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"cost" . $iteration . "\" value=\"" . $cost . "\">";
+    foreach ($item_costs as $item_cost) {
+        echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"cost" . $iteration . "\" value=\"" . $item_cost . "\">";
         $iteration++;
+    }
+
+    if (count($this->session->get('discount_codes')) > 0) {
+        $discount = number_format((float)$cost * $this->session->get('discount_rate'), 2, '.', '');
+        echo "<input type=\"hidden\" id=\"hiddenInput\" name=\"discount\" value=\"" . number_format((float)($cost - $discount), 2, '.', '') . "\">";
     }
 
     echo "<button type=\"submit\" class=\"btn btn-success btn-lg ml-auto\">Proceed to checkout</button>";

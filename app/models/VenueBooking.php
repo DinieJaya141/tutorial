@@ -1,25 +1,19 @@
 <?php
 
 use Phalcon\Validation;
-use Phalcon\Mvc\Model\Relation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 
-class Users extends \Phalcon\Mvc\Model
+class VenueBooking extends \Phalcon\Mvc\Model
 {
 
     public $id; //int
+    public $venue_id; //int
+    public $name; //str
     public $email; //str
-    public $password; //str
-    public $username; //str
-    public $contact; //int
-
-    public function setUsername($username) {
-        $this->username = $username;
-    }
-
-    public function setPassword($password) {
-        $this->password = $password;
-    }
+    public $contact; //str
+    public $agenda; //str
+    public $choice; //str
+    public $date; //str
 
     /**
      * Validations and business logic
@@ -49,31 +43,8 @@ class Users extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("tutorial");
-        $this->setSource("users");
-        $this->hasOne(
-            'id',
-            'Cart',
-            'user_id',
-            array('foreignKey' => [
-                    'action' => Relation::ACTION_CASCADE,
-                ], 'alias' => 'Cart')
-        );
-        $this->hasMany(
-            'id',
-            'Orders',
-            'user_id',
-            array('foreignKey' => [
-                    'action' => Relation::ACTION_CASCADE,
-                ], 'alias' => 'Orders')
-        );
-        $this->hasMany(
-            'id',
-            'PromoRecords',
-            'user_id',
-            array('foreignKey' => [
-                    'action' => Relation::ACTION_CASCADE,
-                ], 'alias' => 'PromoRecords')
-        );
+        $this->setSource("venue_booking");
+        $this->belongsTo('venue_id', 'Venue', 'id', ['alias' => 'Venue']);
     }
 
     /**
@@ -83,14 +54,14 @@ class Users extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'users';
+        return 'venue_booking';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Users[]|Users|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return VenueBooking[]|VenueBooking|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -101,7 +72,7 @@ class Users extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Users|\Phalcon\Mvc\Model\ResultInterface
+     * @return VenueBooking|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

@@ -14,10 +14,13 @@ class SessionController extends ControllerBase
             ]
         );
 
-        $this->session->set('userid', $user->id,);
-        $this->session->set('username', $user->username,);
-        $this->session->set('email', $user->email,);
-        $this->session->set('book_date', '',);
+        $this->session->set('userid', $user->id);
+        $this->session->set('username', $user->username);
+        $this->session->set('email', $user->email);
+        $this->session->set('user', $user);
+        $this->session->set('book_date', '');
+        $this->session->set('discount_codes', []);
+        $this->session->set('discount_rate', 1);
     }
 
     public function startAction()

@@ -1,15 +1,13 @@
 <?php
 
-class Orders extends \Phalcon\Mvc\Model
+class Venue extends \Phalcon\Mvc\Model
 {
 
     public $id; //int
-    public $user_id; //int
-    public $purchase_date; //str(date)
-    public $book_date; //str(date)
-    public $total_cost; //double
-    public $discount; //double
+    public $title; //str
     public $details; //str
+    public $choices; //str
+    public $image; //str
 
     /**
      * Initialize method for model.
@@ -17,8 +15,13 @@ class Orders extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("tutorial");
-        $this->setSource("orders");
-        $this->belongsTo('user_id', 'Users', 'id', ['alias' => 'Users']);
+        $this->setSource("venue");
+        $this->hasMany(
+            'id',
+            'VenueBookings',
+            'venue_id',
+            array('foreignKey' => TRUE, 'alias' => 'VenueBookings')
+        );
     }
 
     /**
@@ -28,14 +31,14 @@ class Orders extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'orders';
+        return 'venue';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Orders[]|Orders|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Venue[]|Venue|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -46,26 +49,11 @@ class Orders extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Orders|\Phalcon\Mvc\Model\ResultInterface
+     * @return Venue|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    public static function listUserOrders($userid)
-    {
-        $orders = Orders::find(
-            [
-                "user_id = :user_id:",
-                'bind' => [
-                    'user_id'   => $userid,
-                ],
-                'order'  => 'id DESC',
-            ]
-        );
-
-        return $orders;
     }
 
 }
