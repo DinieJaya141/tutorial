@@ -7,7 +7,5 @@ use Phalcon\Paginator\Adapter\Model as Paginator;
 
 class PromoRecordsController extends ControllerBase
 {
-
     //
-
 }

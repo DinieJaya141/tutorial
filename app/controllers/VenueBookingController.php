@@ -36,16 +36,10 @@ class VenueBookingController extends ControllerBase
         $venue_booking->date = $this->request->getPost('dateInput');
 
         if (!$venue_booking->save()) {
-            foreach ($venue_booking->getMessages() as $message) {
-                $this->flash->error($message);
-            }
-
-            $this->dispatcher->forward([
-                'controller' => "venuebooking/inquiry",
-                'action' => 'index'
-            ]);
-
-            return;
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'danger');
+            $this->flashSession->notice('Error occurred, inquiry not submitted.');
+            return $this->response->redirect('venuebooking');
         }
     }
 

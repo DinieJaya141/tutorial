@@ -18,7 +18,9 @@ class PromoController extends ControllerBase
 
         foreach ($used_promos as $promo) {
             if ($promo == $this->request->getPost('promoInput')) {
-                $this->flash->error("Promo code currently being applied.");
+                $this->session->set('flash', TRUE);
+                $this->session->set('flash_type', 'info');
+                $this->flashSession->notice('Promo code currently being applied.');
                 return $this->response->redirect('cart');
             }
         }
@@ -26,12 +28,16 @@ class PromoController extends ControllerBase
         $promo = Promo::findFirstByCode($this->request->getPost('promoInput'));
 
         if (!$promo) {
-            $this->flash->error("Promo code invalid.");
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'danger');
+            $this->flashSession->notice('Invalid promo code.');
             return $this->response->redirect('cart');
         }
 
         if ($promo->availability == 0) {
-            $this->flash->error("Promo code is no longer available.");
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'danger');
+            $this->flashSession->notice('Promo code no longer available.');
             return $this->response->redirect('cart');
         }
 
@@ -41,7 +47,9 @@ class PromoController extends ControllerBase
             foreach ($user_promo_record as $promo_record) {
                 $record = Promo::findFirstById($promo_record->promo_id);
                 if ($record->code == $this->request->getPost('promoInput')) {
-                    $this->flash->error("You have used this promo code before already.");
+                    $this->session->set('flash', TRUE);
+                    $this->session->set('flash_type', 'danger');
+                    $this->flashSession->notice('You have already used this promo code before.');
                     return $this->response->redirect('cart');
                 }
             }
@@ -52,18 +60,24 @@ class PromoController extends ControllerBase
         $new_discount_rate = $this->session->get('discount_rate') * $promo->rate;
 
         $this->session->set('discount_rate', $new_discount_rate);
+        $this->session->set('flash', TRUE);
+        $this->session->set('flash_type', 'success');
+        $this->flashSession->notice('Promo code applied successfully.');
         return $this->response->redirect('cart');
     }
 
     public function resetAction()
     {
         if (!$this->session->has('auth')) {
-            return $this->response->redirect("");
+            return $this->response->redirect('');
         }
 
         $this->session->set('discount_codes', []);
         $this->session->set('discount_rate', 1);
 
+        $this->session->set('flash', TRUE);
+        $this->session->set('flash_type', 'success');
+        $this->flashSession->notice('Removed all active promo codes.');
         return $this->response->redirect('cart');
     }
 

@@ -13,7 +13,7 @@
 <?php echo $this->getContent() ?>
 
 <?php
-    $user = Users::findFirstByid($this->session->get('userid'));
+    $user = $this->session->get('user');
 
     $inventory = $user->Cart->Contents;
     $cost = 0;

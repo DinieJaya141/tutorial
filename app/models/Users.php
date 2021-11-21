@@ -13,14 +13,6 @@ class Users extends \Phalcon\Mvc\Model
     public $username; //str
     public $contact; //int
 
-    public function setUsername($username) {
-        $this->username = $username;
-    }
-
-    public function setPassword($password) {
-        $this->password = $password;
-    }
-
     /**
      * Validations and business logic
      *

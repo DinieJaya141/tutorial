@@ -12,7 +12,17 @@
 
 <?php echo $this->getContent() ?>
 
-<?php 
+<?php
+    if ($this->session->get('flash') == TRUE) {
+        echo "<div class=\"alert alert-" . $this->session->get('flash_type') . " alert-dismissible\" role=\"alert\">";
+        echo $this->flashSession->output();
+        echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+        echo "<span aria-hidden=\"true\">&times;</span>";
+        echo "</button></div>";
+        $this->session->set('flash', FALSE);
+        $this->session->set('flash_type', '');
+    }
+
     echo "This menu adds tickets to your cart only. You can adjust the quantity of each item from your  ";
     echo $this->tag->linkTo(["cart", "cart"]);
     echo ".";
@@ -22,7 +32,7 @@
 
 <?php
     $tickets = Tickets::find();
-    $user = Users::findFirstByid($this->session->get('userid'));
+    $user = $this->session->get('user');
 
     $item_ids = $user->Cart->getItemIds($user->Cart->Contents, "ticket");
 

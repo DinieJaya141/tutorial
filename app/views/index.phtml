@@ -11,7 +11,7 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand"><?php echo $this->tag->linkTo(["", "HOME", "style" => "text-decoration: none; color: #0000EE;"]) ?></a>
+            <a class="navbar-brand"><?php echo $this->tag->linkTo(["", "HOME", "style" => "text-decoration: none; color: #FFFFFF;"]) ?></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -63,8 +63,8 @@
                         <a class="d-flex align-items-center nav-link" href="http://localhost:8000/cart">Cart</a>
                         </li>
                         <li class="nav-item px-2 dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #0000EE;">
-                            User Panel
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #FFFFFF;">
+                            <?php echo htmlspecialchars($this->session->get('user')->username) ?>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="http://localhost:8000/users/account">Manage Account</a>
@@ -76,9 +76,7 @@
                         </li>
                         <?php
                     } else {
-                        echo "<button type=\"button\" class=\"btn btn-dark\">";
-                        echo $this->tag->linkTo(["users/login", "Login", "style" => "text-decoration: none;"]);
-                        echo "</button>";
+                        echo "<a type=\"button\" href=\"http://localhost:8000/users/login\" class=\"btn btn-dark text-center mx-auto\">Login</a>";
                     }?>
                 </ul>
             </div>

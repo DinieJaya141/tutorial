@@ -14,13 +14,13 @@ class SessionController extends ControllerBase
             ]
         );
 
-        $this->session->set('userid', $user->id);
-        $this->session->set('username', $user->username);
         $this->session->set('email', $user->email);
         $this->session->set('user', $user);
         $this->session->set('book_date', '');
         $this->session->set('discount_codes', []);
         $this->session->set('discount_rate', 1);
+        $this->session->set('flash', FALSE);
+        $this->session->set('flash_type', '');
     }
 
     public function startAction()
@@ -39,33 +39,26 @@ class SessionController extends ControllerBase
                 ]
             );
 
-            if ($user !== false) {
+            if ($user !== FALSE) {
                 $this->_registerSession($user);
-
-                $this->flash->success(
-                    'Welcome ' . htmlspecialchars($user->username)
-                );
-
-                return $this->response->redirect("index");
+                $this->session->set('flash', TRUE);
+                $this->session->set('flash_type', 'success');
+                $this->flashSession->notice('Successfully logged in. Welcome, ' . htmlspecialchars($user->username) . '.');
+                return $this->response->redirect('');
+            } else {
+                $this->session->set('flash', TRUE);
+                $this->session->set('flash_type', 'danger');
+                $this->flashSession->notice('Wrong credentials, try again.');
+                return $this->response->redirect('users/login');
             }
-
-            $this->flash->error(
-                'Incorrect credentials, try again.'
-            );
+        } else {
+            return $this->response->redirect('');
         }
-
-        return $this->dispatcher->forward(
-            [
-                'controller' => 'users',
-                'action'     => 'login',
-            ]
-        );
     }
 
     public function endAction()
     {
-        //$this->flashSession->success("Exit");
         $this->session->destroy();
-        return $this->response->redirect("index");
+        return $this->response->redirect('');
     }
 }

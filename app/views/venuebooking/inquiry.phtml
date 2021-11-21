@@ -6,7 +6,7 @@
 $venue = Venue::findFirstById($this->request->getPost('venueId'));
 
 if ($this->session->has('auth')) {
-    $user = Users::findFirstById($this->session->get('userid'));
+    $user = $this->session->get('user');
 }
 
 ?>
@@ -74,8 +74,11 @@ if ($this->session->has('auth')) {
     echo "<input type=\"hidden\" class=\"form-control\" id=\"venueId\"  name=\"venueIdInput\" value=\"" . $venue->id . "\"><br>";
 
     echo "<br>";
-    echo "<button type=\"submit\" class=\"btn btn-dark text-center mx-auto\">Submit Inquiry</button>";
-    echo "</div>";
+    echo "<div class=\"form-group w-50 text-center mx-auto\">";
+    echo "<button type=\"submit\" class=\"btn btn-dark text-center mx-auto\">Submit</button>";
+    echo " ";
+    echo "<a type=\"button\" href=\"http://localhost:8000/venuebooking\" class=\"btn btn-danger text-center mx-auto\">Cancel</a>";
+    echo "</div></div>";
     echo "</form>";
     echo $this->tag->endForm();
 ?>

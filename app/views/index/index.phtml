@@ -2,31 +2,25 @@
     <h1>Welcome to Tutorial!</h1>
 </div>
 
-<?php echo $this->getContent() ?>
-<!--<p><?php $this->flashSession->output() ?></p>-->
+<?php
+  if ($this->session->get('flash') == TRUE) {
+    echo "<div class=\"alert alert-" . $this->session->get('flash_type') . " alert-dismissible\" role=\"alert\">";
+    echo $this->flashSession->output();
+    echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+    echo "<span aria-hidden=\"true\">&times;</span>";
+    echo "</button></div>";
+    $this->session->set('flash', FALSE);
+    $this->session->set('flash_type', '');
+  }
+?>
 
 <p><?php 
 	if ($this->session->has('auth')) {
-		echo "You are currently logged in as <code>" . htmlspecialchars($this->session->get('username')) . "</code>. Very good.";
+		echo "You are currently logged in as <code>" . htmlspecialchars($this->session->get('user')->username) . "</code>. Very good.";
 	} else {
 		echo "You are not logged in. Please do something about that. You can login top-right.";
 	}
 ?></p>
-
-<?php
-/*
-$user = Users::findFirstById($this->session->get('userid'));
-$this->session->set('user', $user);
-
-echo ($this->session->get('user'))->username;
-
-$user_promo_record = $user->PromoRecords;
-
-if (count($user_promo_record) > 0) {
-	echo "yes";
-}
-*/
-?>
 
 <img class="mx-auto d-block" src="/img/index/theme_park.jpg" alt="theme_park.jpg" width="50%" height="50%">
 

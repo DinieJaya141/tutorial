@@ -3,12 +3,7 @@
 
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
 //use Cart;
-
-require 'vendor/autoload.php';
 
 class CartController extends ControllerBase
 {
@@ -16,7 +11,10 @@ class CartController extends ControllerBase
     public function indexAction()
     {
         if (!$this->session->has('auth')) {
-            return $this->response->redirect("");
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'info');
+            $this->flashSession->notice('You need to login first.');
+            return $this->response->redirect('users/login');
         }
 
         $this->persistent->parameters = null;
@@ -41,38 +39,50 @@ class CartController extends ControllerBase
     public function addtocartAction()
     {
         if (!$this->request->isPost()) {
-            return $this->response->redirect();
+            return $this->response->redirect('');
         }
 
         $cart_contents = new CartContents();
-        $cart_contents->cart_id = $this->request->getPost("cartId");
+        $cart_contents->cart_id = $this->request->getPost('cartId');
         $cart_contents->quantity = 1;
 
-        if ($this->request->getPost("itemType") == "ticket") {
-            $cart_contents->ticket_id = $this->request->getPost("itemId");
-            $cart_contents->item_type = $this->request->getPost("itemType");
-        } else if ($this->request->getPost("itemType") == "merchandise") {
-            $cart_contents->merchandise_id = $this->request->getPost("itemId");
-            $cart_contents->item_type = $this->request->getPost("itemType");
+        if ($this->request->getPost('itemType') == 'ticket') {
+            $cart_contents->ticket_id = $this->request->getPost('itemId');
+            $cart_contents->item_type = $this->request->getPost('itemType');
+        } else if ($this->request->getPost('itemType') == 'merchandise') {
+            $cart_contents->merchandise_id = $this->request->getPost('itemId');
+            $cart_contents->item_type = $this->request->getPost('itemType');
         } else {
-            $this->flash->error("Something went wrong. Try again.");
-            return $this->response->redirect("tickets");
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'error');
+            $this->flashSession->notice('Something went wrong. Try again.');
+            return $this->response->redirect('tickets');
         }
 
         if (!$cart_contents->save()) {
             foreach ($cart_contents->getMessages() as $message) {
-                $this->flash->error($message);
+                $this->flashSession->notice($message);
             }
-            return $this->response->redirect("tickets");
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'error');
+            return $this->response->redirect('tickets');
         }
 
-        if ($this->request->getPost("itemType") == "ticket") {
-            return $this->response->redirect("tickets");
-        } else if ($this->request->getPost("itemType") == "merchandise") {
-            return $this->response->redirect("merchandise");
+        if ($this->request->getPost('itemType') == 'ticket') {
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'info');
+            $this->flashSession->notice('Item added to cart.');
+            return $this->response->redirect('tickets');
+        } else if ($this->request->getPost('itemType') == 'merchandise') {
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'info');
+            $this->flashSession->notice('Item added to cart.');
+            return $this->response->redirect('merchandise');
         } else {
-            $this->flash->error("Something went wrong. Returning to your Cart.");
-            return $this->response->redirect("cart");
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'error');
+            $this->flashSession->notice('Something went wrong. Try again.');
+            return $this->response->redirect('cart');
         }
     }
 
@@ -82,28 +92,34 @@ class CartController extends ControllerBase
             return $this->response->redirect();
         }
 
-        $action = $this->request->getPost("action");
+        $action = $this->request->getPost('action');
 
         $cart_contents = CartContents::findFirst(
             [
                 "cart_id = :cart_id: AND item_type = :item_type: AND (ticket_id = :item_id: OR merchandise_id = :item_id:)",
                 'bind' => [
-                    'cart_id'   => $this->request->getPost("cartId"),
-                    'item_id'   => $this->request->getPost("itemId"),
-                    'item_type' => $this->request->getPost("itemType"),
+                    'cart_id'   => $this->request->getPost('cartId'),
+                    'item_id'   => $this->request->getPost('itemId'),
+                    'item_type' => $this->request->getPost('itemType'),
                 ]
             ]
         );
 
         if ($cart_contents && ($action == "update")) {
-            $cart_contents->setQuantity((int)$this->request->getPost("quantity"));
+            $cart_contents->setQuantity((int)$this->request->getPost('quantity'));
             $cart_contents->save();
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'success');
+            $this->flashSession->notice('Item quantity updated.');
             return $this->response->redirect("cart");
-        } else if ($cart_contents && ($action == "delete")) {
+        } else if ($cart_contents && ($action == 'delete')) {
             $cart_contents->delete();
-            return $this->response->redirect("cart");
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'success');
+            $this->flashSession->notice('Item removed successfully.');
+            return $this->response->redirect('cart');
         } else {
-            return $this->response->redirect("cart");
+            return $this->response->redirect('cart');
         }
     }
 
@@ -113,39 +129,48 @@ class CartController extends ControllerBase
             if (!$this->session->has('auth')) {
                 return $this->response->redirect();
             } else {
-                return $this->response->redirect("cart");
+                return $this->response->redirect('cart');
             }
         }
 
-        $this->session->set('book_date', $this->request->getPost("date"));
-        return $this->response->redirect("cart");
+        $this->session->set('book_date', $this->request->getPost('date'));
+        $this->session->set('flash', TRUE);
+        $this->session->set('flash_type', 'success');
+        $this->flashSession->notice('Ticket pick up date booked successfully.');
+        return $this->response->redirect('cart');
     }
 
     public function summaryAction()
     {
         if (!$this->session->has('auth')) {
-            return $this->response->redirect("");
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'info');
+            $this->flashSession->notice('You need to login first.');
+            return $this->response->redirect('users/login');
         }
 
-        $user = Users::findFirstByid($this->session->get('userid'));
+        $user = $this->session->get('user');
         $inventory = $user->Cart->Contents;
 
         if ($inventory->count() <= 0) {
-            return $this->response->redirect("cart");
+            return $this->response->redirect('cart');
         }
     }
 
     public function checkoutAction()
     {
         if (!$this->session->has('auth')) {
-            return $this->response->redirect("");
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'info');
+            $this->flashSession->notice('You need to login first.');
+            return $this->response->redirect('users/login');
         }
 
-        $user = Users::findFirstByid($this->session->get('userid'));
+        $user =$this->session->get('user');
         $inventory = $user->Cart->Contents;
 
         if ($inventory->count() <= 0) {
-            return $this->response->redirect("cart");
+            return $this->response->redirect('cart');
         }
 
         $cart_contents = CartContents::find(
@@ -181,7 +206,9 @@ class CartController extends ControllerBase
         $order->details = $details;
         if (!$order->save()) {
             $this->session->set('book_date', '');
-            echo "Datase error. Could not add Order.";
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'danger');
+            $this->flashSession->notice('Database error occurred. Order history not updated.');
             return;
         }
 

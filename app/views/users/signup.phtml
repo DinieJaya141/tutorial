@@ -10,7 +10,17 @@
     </h1>
 </div>
 
-<?php echo $this->getContent() ?>
+<?php
+  if ($this->session->get('flash') == TRUE) {
+    echo "<div class=\"alert alert-" . $this->session->get('flash_type') . " alert-dismissible\" role=\"alert\">";
+    echo $this->flashSession->output();
+    echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+    echo "<span aria-hidden=\"true\">&times;</span>";
+    echo "</button></div>";
+    $this->session->set('flash', FALSE);
+    $this->session->set('flash_type', '');
+  }
+?>
 
 <?php
     echo $this->tag->form(
@@ -27,7 +37,7 @@
 <form>
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="userEmail" value="<?php echo $this->request->getPost("userEmail", "email")?>" required>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="userEmail" value="<?php echo htmlspecialchars($this->request->getPost("userEmail", "email"))?>" required>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Password</label>
@@ -35,19 +45,19 @@
   </div>
   <div class="form-group">
     <label for="exampleInputFirstName1">First Name</label>
-    <input type="text" class="form-control" id="exampleInputFirstName1" placeholder="Enter your first name" name="userFirstName" value="<?php echo $this->request->getPost("userFirstName")?>" required>
+    <input type="text" class="form-control" id="exampleInputFirstName1" placeholder="Enter your first name" name="userFirstName" value="<?php echo htmlspecialchars($this->request->getPost("userFirstName"))?>" required>
   </div>
   <div class="form-group">
     <label for="exampleInputFirstName1">Last Name</label>
-    <input type="text" class="form-control" id="exampleInputLastName1" placeholder="Enter your last name" name="userLastName" value="<?php echo $this->request->getPost("userLastName")?>" required>
+    <input type="text" class="form-control" id="exampleInputLastName1" placeholder="Enter your last name" name="userLastName" value="<?php echo htmlspecialchars($this->request->getPost("userLastName"))?>" required>
   </div>
   <div class="form-group">
     <label for="exampleInputContact1">Contact Number</label>
-    <input type="text" class="form-control" id="exampleInputContact1" placeholder="Enter your contact number" name="userContact" value="<?php echo $this->request->getPost("userContact")?>" required>
+    <input type="text" class="form-control" id="exampleInputContact1" placeholder="Enter your contact number" name="userContact" value="<?php echo htmlspecialchars($this->request->getPost("userContact"))?>" required>
   </div>
   <div class="form-group">
     <label for="exampleInputUsername1">Username</label>
-    <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Enter your display name" name="userName" value="<?php echo $this->request->getPost("userName")?>" required>
+    <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Enter your display name" name="userName" value="<?php echo htmlspecialchars($this->request->getPost("userName"))?>" required>
   </div>
   <button type="submit" class="btn btn-dark">Submit</button>
 </form>

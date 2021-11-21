@@ -1,0 +1,121 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+
+<h1 class="text-center"><?php echo "Edit credentials"; ?></h1>
+
+<?php
+  if ($this->session->get('flash') == TRUE) {
+    echo "<div class=\"alert alert-" . $this->session->get('flash_type') . " alert-dismissible\" role=\"alert\">";
+    echo $this->flashSession->output();
+    echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+    echo "<span aria-hidden=\"true\">&times;</span>";
+    echo "</button></div>";
+    $this->session->set('flash', FALSE);
+    $this->session->set('flash_type', '');
+  }
+?>
+
+<br>
+
+<?php
+    echo $this->tag->form(
+        [
+            "users/editusername",
+            "autocomplete" => "off",
+            "class" => "form-horizontal"
+        ]
+    );
+?>
+
+<form>
+    <div class="form-group w-50 text-center mx-auto">
+        <label for="usernameInput">Please specify your new username:</label>
+        <div class="row">
+            <?php
+            echo "<input type=\"text\" class=\"w-75 ml-auto\" id=\"username\" name=\"usernameInput\" placeholder=\"Enter new username here\" value=\"" . htmlspecialchars($this->session->get('user')->username) . "\" required>";
+            ?>
+            <button type="submit" class="btn btn-dark mr-auto">Confirm</button>
+        </div>
+    </div>
+</form>
+
+<?php echo $this->tag->endForm(); ?>
+
+<?php
+    echo $this->tag->form(
+        [
+            "users/editfirstname",
+            "autocomplete" => "off",
+            "class" => "form-horizontal"
+        ]
+    );
+?>
+
+<form>
+    <div class="form-group w-50 text-center mx-auto">
+        <label for="firstnameInput">Please specify your new first name:</label>
+        <div class="row">
+            <?php
+            echo "<input type=\"text\" class=\"w-75 ml-auto\" id=\"firstname\" name=\"firstnameInput\" placeholder=\"Enter new first name here\" value=\"" . ($this->session->get('user'))->first_name . "\" required>";
+            ?>
+            <button type="submit" class="btn btn-dark mr-auto">Confirm</button>
+        </div>
+    </div>
+</form>
+
+<?php echo $this->tag->endForm(); ?>
+
+<?php
+    echo $this->tag->form(
+        [
+            "users/editlastname",
+            "autocomplete" => "off",
+            "class" => "form-horizontal"
+        ]
+    );
+?>
+
+<form>
+    <div class="form-group w-50 text-center mx-auto">
+        <label for="lastnameInput">Please specify your new last name:</label>
+        <div class="row">
+            <?php
+            echo "<input type=\"text\" class=\"w-75 ml-auto\" id=\"lastname\" name=\"lastnameInput\" placeholder=\"Enter new last name here\" value=\"" . ($this->session->get('user'))->last_name . "\" required>";
+            ?>
+            <button type="submit" class="btn btn-dark mr-auto">Confirm</button>
+        </div>
+    </div>
+</form>
+
+<?php echo $this->tag->endForm(); ?>
+
+<?php
+    echo $this->tag->form(
+        [
+            "users/editcontact",
+            "autocomplete" => "off",
+            "class" => "form-horizontal"
+        ]
+    );
+?>
+
+<form>
+    <div class="form-group w-50 text-center mx-auto">
+        <label for="contactInput">Please specify your new contact number:</label>
+        <div class="row">
+            <?php
+            echo "<input type=\"text\" class=\"w-75 ml-auto\" id=\"contact\" name=\"contactInput\" placeholder=\"Enter new contact number here\" value=\"" . ($this->session->get('user'))->contact . "\" required>";
+            ?>
+            <button type="submit" class="btn btn-dark mr-auto">Confirm</button>
+        </div>
+        <br><br>
+        <a type="button" href="http://localhost:8000/users/account" class="btn btn-danger text-center mx-auto">Back to Manage Account page</a>
+    </div>
+</form>
+
+<?php echo $this->tag->endForm(); ?>
+
+<br><br>

@@ -10,7 +10,19 @@
     </h1>
 </div>
 
-<?php echo $this->getContent() ?>
+<br>
+
+<?php
+  if ($this->session->get('flash') == TRUE) {
+    echo "<div class=\"alert alert-" . $this->session->get('flash_type') . " alert-dismissible\" role=\"alert\">";
+    echo $this->flashSession->output();
+    echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+    echo "<span aria-hidden=\"true\">&times;</span>";
+    echo "</button></div>";
+    $this->session->set('flash', FALSE);
+    $this->session->set('flash_type', '');
+  }
+?>
 
 <?php
     echo $this->tag->form(
@@ -22,12 +34,10 @@
     );
 ?>
 
-<br>
-
 <form>
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="userEmail" value="<?php echo $this->request->getPost("userEmail", "email")?>" required>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="userEmail" value="<?php echo htmlspecialchars($this->request->getPost("userEmail", "email"))?>" required>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Password</label>

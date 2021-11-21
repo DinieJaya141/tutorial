@@ -13,13 +13,13 @@
 <?php echo $this->getContent() ?>
 
 <?php
-    $orders = Orders::listUserOrders($this->session->get('userid'));
+    $orders = Orders::listUserOrders($this->session->get('user')->id);
 
     if (count($orders) == 0) {
         echo "<p>You have not made any purchases yet.</p>";
         echo "<br>";
         echo "<div class=\"text-center mx-auto\">";
-        echo "<a type=\"button\" href=\"http://localhost:8000/users/account\" class=\"btn btn-info btn-lg text-center mx-auto\">Back to Manage Account page</a>";
+        echo "<a type=\"button\" href=\"http://localhost:8000/users/account\" class=\"btn btn-danger text-center mx-auto\">Back to Manage Account page</a>";
         echo "</div>";
         return;
     }
@@ -74,7 +74,7 @@
     echo "</table>";
 
     echo "<div class=\"text-center mx-auto\">";
-    echo "<a type=\"button\" href=\"http://localhost:8000/users/account\" class=\"btn btn-info btn-lg text-center mx-auto\">Back to Manage Account page</a>";
+    echo "<a type=\"button\" href=\"http://localhost:8000/users/account\" class=\"btn btn-danger text-center mx-auto\">Back to Manage Account page</a>";
     echo "</div>";
 
     echo "<br>";

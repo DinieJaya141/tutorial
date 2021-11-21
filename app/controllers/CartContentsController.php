@@ -7,5 +7,5 @@ use Phalcon\Paginator\Adapter\Model as Paginator;
 
 class CartContentsController extends ControllerBase
 {
-
+	//
 }
