@@ -1,0 +1,71 @@
+<div class="page-header">
+    <h1><strong>Park Policies</strong></h1>
+</div>
+
+<?php
+  if ($this->session->get('flash') == TRUE) {
+    echo "<div class=\"alert alert-" . $this->session->get('flash_type') . " alert-dismissible\" role=\"alert\">";
+    echo $this->flashSession->output();
+    echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+    echo "<span aria-hidden=\"true\">&times;</span>";
+    echo "</button></div>";
+    $this->session->set('flash', FALSE);
+    $this->session->set('flash_type', '');
+  }
+?>
+
+<h5>Jerudong Park prides itself as a family-centric park that values the safety of all visitors. Violating our park policies may result in immediate ejection from the playground without refund. For more information on our policies, we recommend taking the time to review our polices below.</h5>
+
+<br><br>
+
+<h1><strong>Behaviour</strong></h1>
+
+<h5>All visitors are expected to behave in a proper manner at all times while at the park and not resorting to the use of offensive language or acting in aggression towards park staffs. Jumping queue is also not allowed. Visitors wishing to play the same ride again are expected to queue again and go to the back of the line.</h5>
+
+<br><br>
+
+<h1><strong>Dress Code</strong></h1>
+
+<h5>As part of our park policy, proper attires must be worn at all times including appropriate footwear. Clothing with offensive messages are strictly prohibited. Visitors at the Waterpark are also expected to follow the dress attire guideline shown below:</h5>
+
+<br>
+
+<img class="mx-auto d-block" src="/img/index/waterpark_dress_code.png" alt="waterpark_dress_code.png" width="100%" height="100%" style="border: 1px solid #555;">
+
+<br><br>
+
+<h1><strong>Pets</strong></h1>
+
+<h5>All pets are not permitted in the park, with the exception of authorized animal vendors approved by Jerudong Park.</h5>
+
+<br><br>
+
+<h1><strong>Photography</strong></h1>
+
+<h5>By entering any parts of our playground, visitors grant Jerudong Park the right to film, video, record or photograph them on the park property for any reason without having to give consideration or payment.
+
+Any use, reuse or reproduction for commercial purposes or paid partnership promotions without obtaining a prior written consent from Jerudong Park Playground is strictly prohibited! This applies to traditional, digital media and social media channels.</h5>
+
+<br><br>
+
+<h1><strong>Prohibited Items</strong></h1>
+
+<h5>
+<ul>
+    <li>Sharp objects including but not limited to knives, pocket knives, needles and etc</li>
+    <li>Fireworks/explosives</li>
+    <li>Spray paint</li>
+    <li>Laser pointers</li>
+    <li>Mace/pepper spray</li>
+    <li>Flammable liquids</li>
+    <li>Alcoholic beverages and or illegal substances</li>
+</ul>
+</h5>
+
+<br><br>
+
+<h1><strong>Additional Questions</strong></h1>
+
+<h5>Check out our <a href="http://localhost:8000/faq">FAQ</a> for more information.</h5>
+
+<br><br>

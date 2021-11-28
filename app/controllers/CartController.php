@@ -18,22 +18,6 @@ class CartController extends ControllerBase
         }
 
         $this->persistent->parameters = null;
-
-        $cart_exist = Cart::findFirst(
-                [
-                    "user_id = :user_id:",
-                    'bind' => [
-                        'user_id' => $this->session->get('userid'),
-                    ]
-                ]
-            );
-        
-        if (!$cart_exist) {
-            $cart = new Cart();
-            $cart->contents = " ";
-            $cart->user_id = $this->session->get('userid');
-            $cart->save();
-        }
     }
 
     public function addtocartAction()

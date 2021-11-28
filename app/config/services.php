@@ -7,7 +7,6 @@ use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
-//use Phalcon\Flash\Direct as Flash;
 use Phalcon\Flash\Session as Flash;
 use \Phalcon\Mvc\Dispatcher as PhDispatcher;
 
@@ -122,6 +121,55 @@ $di->setShared('router', function () {
     $router->setUriSource(
         Router::URI_SOURCE_SERVER_REQUEST_URI
     );
+
+    $router->add(
+    '/careers',
+    [
+        'controller' => 'index',
+        'action'     => 'careers',
+    ]);
+
+    $router->add(
+    '/contact',
+    [
+        'controller' => 'index',
+        'action'     => 'contact',
+    ]);
+
+    $router->add(
+    '/faq',
+    [
+        'controller' => 'index',
+        'action'     => 'faq',
+    ]);
+
+    $router->add(
+    '/foodcourt',
+    [
+        'controller' => 'index',
+        'action'     => 'foodcourt',
+    ]);
+
+    $router->add(
+    '/openinghours',
+    [
+        'controller' => 'index',
+        'action'     => 'openinghours',
+    ]);
+
+    $router->add(
+    '/parkmap',
+    [
+        'controller' => 'index',
+        'action'     => 'parkmap',
+    ]);
+
+    $router->add(
+    '/parkpolicies',
+    [
+        'controller' => 'index',
+        'action'     => 'parkpolicies',
+    ]);
 
     return $router;
 });

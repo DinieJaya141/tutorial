@@ -1,0 +1,74 @@
+<div class="mapouter"><div class="gmap_canvas"><iframe width="100%" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q=jerudong%20park&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.org"></a><br><style>.mapouter{position:relative;text-align:right;height:300px;width:100%;}</style><a href="https://www.embedgooglemap.net">google map for web site</a><style>.gmap_canvas {overflow:hidden;background:none!important;height:300px;width:100%;}</style></div></div>
+
+<br>
+
+<div class="page-header">
+    <h1><strong>Contact</strong></h1>
+</div>
+
+<?php
+  if ($this->session->get('flash') == TRUE) {
+    echo "<div class=\"alert alert-" . $this->session->get('flash_type') . " alert-dismissible\" role=\"alert\">";
+    echo $this->flashSession->output();
+    echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+    echo "<span aria-hidden=\"true\">&times;</span>";
+    echo "</button></div>";
+    $this->session->set('flash', FALSE);
+    $this->session->set('flash_type', '');
+  }
+?>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h3><strong>Google Map</strong></h3>
+    <h5>Jerudong Park Playground is conveniently located just 20 minutes away from Brunei International Airport. What’s more, you’ll find that we are only 5 minutes away within 3 hotel accommodations: The Empire Hotel, StarLodge and Parkview hotel. A wonderful convenience for you and your whole family!</h5>
+    <br>
+    <h5><ul>
+        <li><strong>Driving direction from Kuala Belait/Seria:</strong> Located 93 km away, all you have to do is to drive on the Seria highway with an estimated driving time of 60 minutes. </li><br>
+        <li><strong>Driving direction from Tutong:</strong> Drive on the Muara-Tutong highway with an estimated driving time of 25 minutes.</li><br>
+        <li><strong>Driving direction From Temburong:</strong> Getting from the rainforest to our park has never been easier! Drive on the newly built Brunei Muara and Temburong connecting bridge with only an estimated driving time of 30 minutes.</li>
+    </ul></h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h3><strong>Address</strong></h3>
+    <h5>Jerudong, BG3122, Negara Brunei Darussalam.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h3><strong>Operating Hours</strong></h3>
+    <p></p>
+    <a type="button" href="http://localhost:8000/openinghours" class="btn btn-dark">View Operating Hours</a>
+    <p></p>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h3><strong>Call us via Phone</strong></h3>
+    <h5>+673 2611777</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h3><strong>Email</strong></h3>
+    <h5>sbd.marketing@jpcc.com.bn</h5>
+  </div>
+</div>
+
+<br><br>

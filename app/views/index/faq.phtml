@@ -1,0 +1,182 @@
+<div class="page-header">
+    <h1><strong>FAQ</strong></h1>
+</div>
+
+<?php
+  if ($this->session->get('flash') == TRUE) {
+    echo "<div class=\"alert alert-" . $this->session->get('flash_type') . " alert-dismissible\" role=\"alert\">";
+    echo $this->flashSession->output();
+    echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+    echo "<span aria-hidden=\"true\">&times;</span>";
+    echo "</button></div>";
+    $this->session->set('flash', FALSE);
+    $this->session->set('flash_type', '');
+  }
+?>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>1. How do I purchase tickets to Jerudong Park?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">There are two ways to purchase our tickets. You can either purchase them directly at the ticket counter or by purchasing them online at our website.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>2. How do I claim my tickets that I purchased online?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Once you’ve purchased tickets online at our website, proceed to print the receipt page to bring with you to claim your ticket at the ticketing counter. Please do bring a form of identification as proof of your residency.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>3. How do I know which ticket pricing applies to me between resident and non-resident?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Our ticket pricing is based on your residency status. If you live in Brunei, regardless of your citizenship then you are qualified under our resident pricing. For those that are tourists visiting Brunei, you would be qualified under non-resident.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>4. Can I purchase a Jerudong Park ticket in advance and use it anytime?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Yes. You can purchase tickets in advance as all our tickets have 3 months validity from the date of purchased.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>5. Do I need to make a booking to enter WaterPark?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">No. There’s no booking needed, all you need to do after purchasing a Jerudong Park ticket that allows you entry to the WaterPark is to get a Waterpark coupon at the ticket counter for the preferred time slot.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>6. Can I play more than 1 sessions of WaterPark in the same day? </strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Yes. All you would need to do is to get the water coupon for the time slot that you would like.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>7. Can I leave Jerudong Park and re-enter back?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">All Jerudong Park tickets have multi-entry passes within a one(1) day limit. You can exit and re-enter as much as you want within the same day.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>8. I purchased my Jerudong Park ticket from someone, can I still use it?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Jerudong Park does not bear any responsibility for tickets purchased through any unauthorized third-party. To avoid any disappointment, please purchase your tickets only through our website or ticket counter.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>9. I purchased a Jerudong Park ticket in advance but I lost it and didn’t get to use it, can I get a replacement for free? </strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">No. All tickets once purchased are under your responsibility to be kept in a safe and proper place at all times. </h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>10. What are the nearest hotels located near Jerudong Park?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">There are two hotels located within a 5-mile / 8-km radius to Jerudong Park. Park view hotel and Star Lodge hotel are conveniently located approximately 5 minutes away to Jerudong Park.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>11. If I use a JP ticket and it rained while I’ve already activated my ticket, do I get a refund?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">No. The weather is beyond our control and even under severe rainy conditions, Jerudong Park remains open.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>12. Can I customize the family package to fit my family?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">No. Our family package is fixed and consists of 2 adult 2 child tickets.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>13. Will the rides/Waterpark still be playable when it rains? </strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Depending on the severity of the rain, rides and Waterpark will temporarily close for safety purposes and will resume operations once it is safe to do so.</h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>14. Can I enter the Waterpark with an entrance only ticket because I’m only going in to accompany a child?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">No. To enter the waterpark premise, you’ll need to purchase a ticket that allows you to enter. </h5>
+  </div>
+</div>
+
+<br>
+
+<div class="card border-dark">
+  <div class="card-header">
+    <h4><strong>15. Are there height requirements for the rides and attractions at Jerudong Park?</strong></h4>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Yes. All of our rides do have a minimum height requirement, to see more information on that please see our rides page on the website.</h5>
+  </div>
+</div>
+
+<br><br>

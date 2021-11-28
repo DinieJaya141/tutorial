@@ -1,0 +1,40 @@
+<div class="page-header">
+    <h1><strong>Careers</strong></h1>
+</div>
+
+<?php
+  if ($this->session->get('flash') == TRUE) {
+    echo "<div class=\"alert alert-" . $this->session->get('flash_type') . " alert-dismissible\" role=\"alert\">";
+    echo $this->flashSession->output();
+    echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+    echo "<span aria-hidden=\"true\">&times;</span>";
+    echo "</button></div>";
+    $this->session->set('flash', FALSE);
+    $this->session->set('flash_type', '');
+  }
+?>
+
+<br>
+
+<h5><strong>Welcome to JPCC Career Opportunities.</strong></h5>
+<h5>Interested applicants may submit your CV, testimonials & certificates to our e-mail or you may send your documents to Jerudong Park Country Club Sdn Bhd Headquarter (located by Jerudong Park Food Court Phase 3).</h5>
+
+<br>
+
+<div class="row">
+<img class="mx-auto d-block" src="/img/index/career01.jpg" alt="career01.jpg" width="49%" height="50%" style="border: 1px solid #555;">
+<img class="mx-auto d-block" src="/img/index/career02.jpg" alt="career02.jpg" width="49%" height="50%" style="border: 1px solid #555;">
+</div>
+
+<br>
+
+<div class="row">
+<img class="mx-auto d-block" src="/img/index/career03.jpg" alt="career03.jpg" width="49%" height="50%" style="border: 1px solid #555;">
+<img class="mx-auto d-block" src="/img/index/career04.jpg" alt="career04.jpg" width="49%" height="50%" style="border: 1px solid #555;">
+</div>
+
+<br><br>
+
+<h5><strong>Email: human.resource@jpcc.com.bn</strong></h5>
+
+<br><br>

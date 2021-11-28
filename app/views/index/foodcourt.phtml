@@ -1,0 +1,136 @@
+<div class="page-header">
+    <h1><strong>Jerudong Park Food Court</strong></h1>
+</div>
+
+<?php
+  if ($this->session->get('flash') == TRUE) {
+    echo "<div class=\"alert alert-" . $this->session->get('flash_type') . " alert-dismissible\" role=\"alert\">";
+    echo $this->flashSession->output();
+    echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+    echo "<span aria-hidden=\"true\">&times;</span>";
+    echo "</button></div>";
+    $this->session->set('flash', FALSE);
+    $this->session->set('flash_type', '');
+  }
+?>
+
+<br>
+
+<div class="card bg-warning border-dark text-center justify-content">
+  <div class="card-header">
+    <h5><strong>OPENS FROM MONDAY TO SUNDAY</strong></h5>
+  </div>
+</div>
+
+<br>
+
+<h5 class="text-justify">Jerudong Park Food Court is the largest food court in Brunei Darussalam strategically located in the area of Jerudong Park Playground. It’s very convenient with wide range of food choices and make it as a must one-stop food destination in Brunei Darussalam. Jerudong Park Food Court offers dishes from Asian Delicacies to Western food comprises over 40 restaurants which categorized in Phase 1, Phase 2 and Phase 3. Jerudong Park Food Court is the perfect place to hang out with your families and friends and enjoy good food in an open air concept.</h5>
+
+<br><br>
+
+<h2 class="text-center"><strong>RESTAURANT DIRECTORY</strong></h2>
+
+<p></p>
+
+<div class="text-center mx-auto">
+<a type="button" href="" class="btn btn-info">JPCC Food Court Instagram</a>
+</div>
+
+<br>
+
+<div class="card bg-dark text-white border-dark">
+  <div class="card-header">
+    <h5><strong>PHASE 1</strong></h5>
+  </div>
+  <div class="card-body bg-white text-dark">
+    Restaurant are not available at the moment.
+  </div>
+</div>
+
+<br>
+
+<div class="card bg-dark text-white border-dark">
+  <div class="card-header">
+    <h5><strong>PHASE 2</strong></h5>
+  </div>
+  <div class="card-body bg-white text-dark">
+    <table class="table" style="border-width: 1px !important; border-style: solid !important; border-color: black !important; -webkit-print-color-adjust:exact;">
+      <thead class="thead-dark">
+        <tr>
+          <th class="col-md-2" scope="col">UNIT NO.</th>
+          <th class="col-md-5" scope="col">TENANT</th>
+          <th class="col-md-3" scope="col">SIGNATURE DISH</th>
+          <th class="col-md-5" scope="col">CONTACT</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">P2-1</th>
+          <td><strong>Mahabumi Enterprise</strong><br>Offers wide range of Asian Cuisines likes the all time favourites Nasi Ayam Penyet and Ikan Bakar.</td>
+          <td><img class="mx-auto d-block" src="/img/index/p2-1.jpg" alt="p2-1.jpg" width="100%" height="100%"></td>
+          <td>8992087/8991641</td>
+        </tr>
+        <tr>
+          <th scope="row">P2-3</th>
+          <td><strong>Q Real Sdn Bhd</strong><br>No one can resist when it comes to Pizza. Not only that, Q Real Sdn Bhd also offers all time favourites Halo Halo. Pizza and Halo Halo are great combination!</td>
+          <td><img class="mx-auto d-block" src="/img/index/p2-3.jpg" alt="p2-3.jpg" width="100%" height="100%"></td>
+          <td>7205890</td>
+        </tr>
+        <tr>
+          <th scope="row">P2-4</th>
+          <td><strong>Syarikat Dyg Hjh Saadiah Ibrahim</strong><br>Discover wide range of Asian Delicacies that surely fits your food taste. This restaurant is one of the best spot to enjoy food food and good ambience.</td>
+          <td><img class="mx-auto d-block" src="/img/index/p2-4.jpg" alt="p2-4.jpg" width="100%" height="100%"></td>
+          <td>7169687</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<br>
+
+<div class="card bg-dark text-white border-dark">
+  <div class="card-header">
+    <h5><strong>PHASE 3</strong></h5>
+  </div>
+  <div class="card-body bg-white text-dark">
+    <table class="table" style="  border-width: 1px !important; border-style: solid !important; border-color: black !important; -webkit-print-color-adjust:exact;">
+      <thead class="thead-dark">
+        <tr>
+          <th class="col-md-2" scope="col">UNIT NO.</th>
+          <th class="col-md-5" scope="col">TENANT</th>
+          <th class="col-md-3" scope="col">SIGNATURE DISH</th>
+          <th class="col-md-5" scope="col">CONTACT</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">P3-9</th>
+          <td><strong>Simplicious Restaurant & Catering Services</strong><br>Thin crust pizza with tons and tons of loaded chees will always be the favourite one. You can get the best seller Aglio Olio Seafood Spaghetti and Crispy Calamari Rings.</td>
+          <td><img class="mx-auto d-block" src="/img/index/p3-9.jpg" alt="p3-9.jpg" width="100%" height="100%"></td>
+          <td>7277757/8772244</td>
+        </tr>
+        <tr>
+          <th scope="row">P3-10</th>
+          <td><strong>Baina Enterprise</strong><br>Get the best rainbow slushies to fresh up your day and don’t forget to enjoy their wide selection of foods ready to serve you.</td>
+          <td><img class="mx-auto d-block" src="/img/index/p3-10.jpg" alt="p3-10.jpg" width="100%" height="100%"></td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <th scope="row">P3-11</th>
+          <td><strong>Sabai Sabai Cafe</strong><br>Lets try out the authentic Thailand Street food with wide range of dishes for you to enjoy!</td>
+          <td><img class="mx-auto d-block" src="/img/index/p3-11.jpg" alt="p3-11.jpg" width="100%" height="100%"></td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th scope="row">P3-12</th>
+          <td><strong>Restoran Tanda Kasih</strong><br>One of the most famous restaurant from Tutong and now Restaurant Tanda Kasih spreading their wings to Jerudong Park Food Court with the famous Nasi Ayam.</td>
+          <td><img class="mx-auto d-block" src="/img/index/p3-12.jpg" alt="p3-12.jpg" width="100%" height="100%"></td>
+          <td>7311116 </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<br><br>

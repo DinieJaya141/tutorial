@@ -122,6 +122,19 @@ class UsersController extends ControllerBase
             return $this->response->redirect('users/signup');
         }
 
+        $cart = new Cart();
+        $cart->contents = " ";
+        $cart->user_id = $user->id;
+        if (!$cart->save()) {
+            $this->session->set('flash', TRUE);
+            $this->session->set('flash_type', 'danger');
+            foreach ($user->getMessages() as $message) {
+                $this->flashSession->notice($message);
+            }
+
+            return $this->response->redirect('users/signup');
+        }
+
         $this->session->set('success', TRUE);
         $this->session->set('email', $user->email);
         return $this->response->redirect("users/success");
@@ -362,8 +375,7 @@ class UsersController extends ControllerBase
             return $this->response->redirect('');
         }
 
-        $id = $this->session->get('userid');
-        $user = Users::findFirstByid($id);
+        $user = Users::findFirstByid($this->session->get('user')->id);
         if (!$user) {
             $this->session->set('flash', TRUE);
             $this->session->set('flash_type', 'danger');

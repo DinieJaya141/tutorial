@@ -1,0 +1,62 @@
+<div class="page-header">
+    <h1><strong>Opening Hours</strong></h1>
+</div>
+
+<?php
+  if ($this->session->get('flash') == TRUE) {
+    echo "<div class=\"alert alert-" . $this->session->get('flash_type') . " alert-dismissible\" role=\"alert\">";
+    echo $this->flashSession->output();
+    echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+    echo "<span aria-hidden=\"true\">&times;</span>";
+    echo "</button></div>";
+    $this->session->set('flash', FALSE);
+    $this->session->set('flash_type', '');
+  }
+?>
+
+<br>
+
+<table class="table table-hover text-center">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Day</th>
+      <th scope="col">Opening Hours</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Monday</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>Tuesday</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>Wednesday</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>Thursday</td>
+      <td>04:00 PM - 11:00 PM</td>
+    </tr>
+    <tr>
+      <td>Friday</td>
+      <td>03:00 PM - 11:30 PM</td>
+    </tr>
+    <tr>
+      <td>Saturday</td>
+      <td>10:00 AM - 11:30 PM</td>
+    </tr>
+    <tr>
+      <td>Sunday</td>
+      <td>10:00 AM - 11:30 PM</td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+<img class="mx-auto d-block" src="/img/index/opening_hours.jpg" alt="opening_hours.jpg" width="100%" height="100%">
+
+<br><br>
