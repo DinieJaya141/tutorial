@@ -7,6 +7,16 @@ Development server is run using 'phalcon serve' in cmd and XAMPP is used as the 
 
 - - - - -
 
+Changelog (28 November 2021)
+
+- Playground: added simple Controller for navigation between playground ride pages.
+- Cart: fixed an issue where newly created Users have the Ticket and Merchandise pages displayed incorrectly if they try to access them before checking their Cart page.
+- Cart: fixed an issue where the User's Cart cannot be accessed due to a misnamed variable.
+- Added pages for each missing link in the navbar, all of them should work now.
+- Minor frontend changes and other code adjustments.
+
+- - - - -
+
 Changelog (21 November 2021)
 
 - Flash/Session: added as a way to display dismissable flash messages that are compatible with `$this->response->redirect()`.
